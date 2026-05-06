@@ -1,7 +1,7 @@
 node_modules/
 .docmd/
+site/
 dist/
 .env
 *.log
 .DS_Store
-site/
