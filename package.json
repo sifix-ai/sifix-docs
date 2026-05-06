@@ -1,0 +1,16 @@
+{
+  "name": "sifix-docs",
+  "version": "1.0.0",
+  "description": "SIFIX Documentation - AI-Powered Wallet Security for Web3",
+  "scripts": {
+    "dev": "docmd dev",
+    "build": "docmd build",
+    "preview": "docmd preview"
+  },
+  "keywords": ["sifix", "web3", "security", "ai", "0g-chain"],
+  "author": "SIFIX Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@docmd/core": "^0.7.8"
+  }
+}

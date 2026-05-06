@@ -5,14 +5,17 @@ Official documentation for SIFIX - AI-Powered Wallet Security for Web3.
 ## Development
 
 ```bash
+# Install dependencies
+npm install
+
 # Start dev server
-npx @docmd/core dev
+npm run dev
 
 # Build for production
-npx @docmd/core build
+npm run build
 
 # Preview production build
-npx @docmd/core preview
+npm run preview
 ```
 
 ## Structure
