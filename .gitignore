@@ -1,0 +1,6 @@
+node_modules/
+.docmd/
+dist/
+.env
+*.log
+.DS_Store
