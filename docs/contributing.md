@@ -5,29 +5,30 @@ description: How to contribute to SIFIX
 
 # Contributing
 
-We welcome contributions to SIFIX! This guide will help you get started.
+We welcome contributions to SIFIX. This guide covers everything you need to get started.
 
 ## Code of Conduct
 
-Be respectful, inclusive, and constructive. We're building security tools for the Web3 community.
+Be respectful, inclusive, and constructive. We are building security tools for the Web3 community.
 
-## Getting Started
+## Quick Start
 
-### 1. Fork & Clone
+### 1. Fork and Clone
 
 ```bash
-# Fork on GitHub, then clone
-git clone https://github.com/YOUR_USERNAME/sifix-agent
+# Fork on GitHub, then clone your fork
+git clone https://github.com/YOUR_USERNAME/sifix-agent.git
 cd sifix-agent
 
 # Add upstream remote
-git remote add upstream https://github.com/sifix-ai/sifix-agent
+git remote add upstream https://github.com/sifix-ai/sifix-agent.git
 ```
 
-### 2. Install Dependencies
+### 2. Install and Build
 
 ```bash
 pnpm install
+pnpm build
 ```
 
 ### 3. Create a Branch
@@ -38,7 +39,7 @@ git checkout -b feature/your-feature-name
 
 ## Development Workflow
 
-### Agent Development
+### sifix-agent (SDK)
 
 ```bash
 cd sifix-agent
@@ -46,97 +47,62 @@ cd sifix-agent
 # Run tests
 pnpm test
 
-# Run tests in watch mode
-pnpm test:watch
-
 # Build
 pnpm build
 
 # Type check
-pnpm typecheck
+npx tsc --noEmit
 ```
 
-### Extension Development
+### sifix-dapp (Dashboard + API)
+
+```bash
+cd sifix-dapp
+
+# Start dev server (hot reload)
+pnpm dev
+
+# Database operations
+pnpm db:push       # Push schema to SQLite
+pnpm db:studio     # Open Prisma Studio
+
+# Build for production
+pnpm build
+
+# Lint
+pnpm lint
+```
+
+### sifix-extension (Chrome Extension)
 
 ```bash
 cd sifix-extension
 
-# Start dev server (hot reload)
+# Start dev server (hot reload, opens Chrome)
 pnpm dev
 
 # Build for production
 pnpm build
 
-# Load in Chrome
+# Load in Chrome:
 # 1. Open chrome://extensions
 # 2. Enable Developer mode
-# 3. Load unpacked: build/chrome-mv3-prod/
+# 3. Load unpacked → build/chrome-mv3-prod/
 ```
 
-### Contracts Development
+### sifix-docs (Documentation)
 
 ```bash
-cd sifix-contracts
+cd sifix-docs
 
-# Compile contracts
-pnpm hardhat compile
+# Start dev server (hot reload)
+pnpm dev
 
-# Run tests
-pnpm hardhat test
+# Build static site
+pnpm build
 
-# Deploy to testnet
-pnpm hardhat run scripts/deploy.ts --network zerog-testnet
-```
-
-## Testing
-
-### Unit Tests
-
-```typescript
-// src/core/simulator.test.ts
-import { describe, it, expect } from 'vitest';
-import { simulateTransaction } from './simulator';
-
-describe('simulateTransaction', () => {
-  it('should simulate ETH transfer', async () => {
-    const result = await simulateTransaction({
-      from: '0x...',
-      to: '0x...',
-      data: '0x',
-      value: '0x16345785d8a0000'
-    });
-    
-    expect(result.success).toBe(true);
-    expect(result.gasUsed).toBeGreaterThan(0n);
-  });
-});
-```
-
-### Integration Tests
-
-```typescript
-// tests/integration/agent.test.ts
-import { SecurityAgent } from '../src';
-
-describe('SecurityAgent Integration', () => {
-  it('should analyze real transaction', async () => {
-    const agent = new SecurityAgent({
-      rpcUrl: process.env.RPC_URL,
-      openaiApiKey: process.env.OPENAI_API_KEY,
-      contractAddress: process.env.CONTRACT_ADDRESS
-    });
-    
-    const result = await agent.analyzeTransaction({
-      from: '0x...',
-      to: '0x...',
-      data: '0x...',
-      value: '0x0'
-    });
-    
-    expect(result.riskLevel).toBeDefined();
-    expect(result.explanation).toBeTruthy();
-  });
-});
+# Preview production build
+pnpm preview
 ```
 
 ## Code Style
@@ -146,36 +112,32 @@ describe('SecurityAgent Integration', () => {
 - Use TypeScript strict mode
 - Prefer `interface` over `type` for object shapes
 - Use `async/await` over `.then()`
-- Add JSDoc comments for public APIs
+- Add JSDoc comments for all public APIs
 
 ```typescript
 /**
  * Analyzes a transaction for security risks.
- * 
- * @param tx - Transaction to analyze
+ *
+ * @param params - Transaction parameters
+ * @param params.from - Sender address
+ * @param params.to - Recipient address
  * @returns Analysis result with risk level and explanation
- * @throws {SimulationError} If simulation fails
  */
-export async function analyzeTransaction(
-  tx: Transaction
-): Promise<AnalysisResult> {
-  // Implementation
+export async function analyzeTransaction(params: {
+  from: Address;
+  to: Address;
+}): Promise<AnalysisResult> {
+  // ...
 }
 ```
 
 ### Formatting
 
-We use Prettier for code formatting:
-
 ```bash
+# Format code
 pnpm format
-```
 
-### Linting
-
-We use ESLint for code quality:
-
-```bash
+# Lint
 pnpm lint
 pnpm lint:fix
 ```
@@ -185,11 +147,12 @@ pnpm lint:fix
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
-feat: add support for ERC-721 analysis
+feat: add ERC-721 transaction analysis support
 fix: handle reverted transactions correctly
-docs: update API reference
+docs: update API reference for v1.5.0
 test: add tests for token approval detection
 chore: update dependencies
+refactor: extract risk scoring into separate module
 ```
 
 ## Pull Request Process
@@ -198,24 +161,24 @@ chore: update dependencies
 
 ```bash
 git fetch upstream
-git rebase upstream/main
+git rebase upstream/master
 ```
 
-### 2. Run Tests
+### 2. Run Checks
 
 ```bash
 pnpm test
 pnpm lint
-pnpm typecheck
+pnpm build
 ```
 
-### 3. Push & Create PR
+### 3. Push and Create PR
 
 ```bash
 git push origin feature/your-feature-name
 ```
 
-Then create a PR on GitHub with:
+Create a Pull Request on GitHub with:
 - Clear title following conventional commits
 - Description of what changed and why
 - Screenshots/videos for UI changes
@@ -223,51 +186,40 @@ Then create a PR on GitHub with:
 
 ### 4. Code Review
 
-- Address review comments
+- Address review comments promptly
 - Keep commits clean (squash if needed)
 - Be responsive and respectful
 
-### 5. Merge
-
-Once approved, maintainers will merge your PR.
-
 ## Areas to Contribute
 
-### 🐛 Bug Fixes
+### Bug Fixes
 
-- Check [Issues](https://github.com/sifix-ai/sifix-agent/issues) for bugs
-- Reproduce the bug
-- Write a failing test
+- Check [Issues](https://github.com/sifix-ai/sifix-agent/issues) for open bugs
+- Reproduce the issue
+- Write a failing test first
 - Fix the bug
 - Verify test passes
 
-### ✨ Features
+### Features
 
-- Discuss in [Discussions](https://github.com/sifix-ai/sifix-agent/discussions) first
-- Get feedback on approach
+- Start a [Discussion](https://github.com/orgs/sifix-ai/discussions) first
+- Get feedback on the approach
 - Implement with tests
 - Update documentation
 
-### 📚 Documentation
+### Documentation
 
 - Fix typos and unclear explanations
-- Add examples and use cases
+- Add code examples and use cases
 - Improve API documentation
 - Write tutorials
 
-### 🧪 Testing
+### Testing
 
 - Increase test coverage
 - Add edge case tests
 - Improve test reliability
 - Add integration tests
-
-### 🎨 UI/UX
-
-- Improve extension popup design
-- Better error messages
-- Loading states and animations
-- Accessibility improvements
 
 ## Security Issues
 
@@ -279,16 +231,17 @@ Email security@sifix.ai with:
 - Potential impact
 - Suggested fix (if any)
 
-We'll respond within 48 hours.
+We will respond within 48 hours.
+
+## Repository Structure
+
+| Repository | Purpose | Tech Stack |
+|---|---|---|
+| [sifix-agent](https://github.com/sifix-ai/sifix-agent) | AI Security Agent SDK | TypeScript, 0G SDK, OpenAI, viem |
+| [sifix-dapp](https://github.com/sifix-ai/sifix-dapp) | Web Dashboard + API Backend | Next.js 16, Prisma, React 19 |
+| [sifix-extension](https://github.com/sifix-ai/sifix-extension) | Chrome Extension (MV3) | Plasmo, React 18, Dexie |
+| [sifix-docs](https://github.com/sifix-ai/sifix-docs) | Documentation Site | DocMD |
 
 ## License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
-
-## Questions?
-
-- [Discussions](https://github.com/sifix-ai/sifix-agent/discussions) - Ask questions
-- [Discord](https://discord.gg/sifix) - Chat with the community
-- [Twitter](https://twitter.com/sifix_ai) - Follow for updates
-
-Thank you for contributing to SIFIX! 🛡️
