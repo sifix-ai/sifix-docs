@@ -1,369 +1,15 @@
 ---
-title: API Reference
-description: Complete API reference for the SIFIX platform — @sifix/agent SDK (v1.5.0) and the dApp REST API (35 endpoints). All code examples are written in TypeScript.
+title: "REST API"
+description: "Complete reference for the SIFIX dApp REST API — 35 endpoints across 11 domains for scanning, analysis, threats, reports, tags, watchlist, scam domains, auth, system, storage, and identity on 0G Galileo Testnet."
 ---
 
-# API Reference
+# REST API
 
-This document provides the complete API reference for the SIFIX platform. It covers two major interfaces:
-
-- **@sifix/agent SDK (v1.5.0)** — a TypeScript/Node.js SDK for programmatic access to SIFIX's security analysis engine.
-- **dApp REST API** — a set of 35 HTTP endpoints powering the SIFIX decentralized application.
+The SIFIX dApp exposes **35 REST endpoints** organized across 11 domains. These endpoints power the dashboard, Chrome extension, and all programmatic interactions with the SIFIX security platform on **0G Galileo Testnet**.
 
 ---
 
-## Table of Contents
-
-- [@sifix/agent SDK (v1.5.0)](#sifixagent-sdk-v150)
-  - [Installation](#installation)
-  - [SecurityAgent](#securityagent)
-  - [AnalysisResult](#analysisresult)
-  - [AIAnalyzer](#aianalyzer)
-  - [TransactionSimulator](#transactionsimulator)
-  - [StorageClient](#storageclient)
-  - [ThreatIntelProvider](#threatintelprovider)
-- [dApp REST API](#dapp-rest-api)
-  - [Base URL & Authentication](#base-url--authentication)
-  - [Scanning](#scanning)
-  - [Analysis](#analysis)
-  - [Threats](#threats)
-  - [Reports](#reports)
-  - [Tags](#tags)
-  - [Watchlist](#watchlist)
-  - [Scam Domains](#scam-domains)
-  - [Auth](#auth)
-  - [System](#system)
-  - [Settings](#settings)
-  - [Storage](#storage)
-  - [Identity](#identity)
-  - [Health](#health)
-
----
-
-## @sifix/agent SDK (v1.5.0)
-
-### Installation
-
-```bash
-npm install @sifix/agent
-```
-
-```bash
-yarn add @sifix/agent
-```
-
-```bash
-pnpm add @sifix/agent
-```
-
-### SecurityAgent
-
-The `SecurityAgent` is the primary entry point for the SDK. It orchestrates transaction simulation, threat intelligence lookups, and AI-powered risk analysis.
-
-#### Constructor
-
-```typescript
-import { SecurityAgent } from "@sifix/agent";
-
-const agent = new SecurityAgent({
-  // Required — Galileo network configuration
-  network: {
-    chainId: 1,
-    rpcUrl: "https://galileo.onfinality.io/public",
-  },
-
-  // AI provider configuration (optional — defaults shown)
-  aiProvider: {
-    primary: "galileo",       // 0G Compute via Galileo
-    fallback: "openai",       // OpenAI-compatible endpoint
-    apiKey: process.env.SIFIX_AI_API_KEY,
-    model: "sifix-security-v1",
-  },
-
-  // Storage configuration (optional)
-  storage: {
-    enabled: true,
-    mockMode: false,          // Set true for local development
-  },
-
-  // Threat intelligence (optional)
-  threatIntel: {
-    enabled: true,
-    cacheTtl: 300,            // seconds
-  },
-});
-```
-
-#### `init()`
-
-Initializes the agent, validates configuration, and establishes connections to all providers. Must be called before any analysis.
-
-```typescript
-const agent = new SecurityAgent(config);
-
-await agent.init();
-// => void — throws on configuration or connection errors
-```
-
-#### `analyzeTransaction(params)`
-
-Performs a full security analysis on a proposed transaction. Returns an `AnalysisResult`.
-
-**Parameters:**
-
-- `from` **`string`** — Sender address (required)
-- `to` **`string`** — Recipient address (required)
-- `data` **`string | undefined`** — Calldata hex string (optional)
-- `value` **`string | undefined`** — ETH value in wei (optional)
-
-```typescript
-const result = await agent.analyzeTransaction({
-  from: "0x1234...abcd",
-  to: "0x5678...ef01",
-  data: "0xa9059cbb000000000000000000000000...",
-  value: "1000000000000000000", // 1 ETH
-});
-
-console.log(result.analysis.riskScore);   // 0–100
-console.log(result.analysis.recommendation); // "block" | "warn" | "allow"
-```
-
-### AnalysisResult
-
-The `AnalysisResult` object is returned by `analyzeTransaction()` and contains the complete output of the security analysis pipeline.
-
-```typescript
-interface AnalysisResult {
-  /** On-chain simulation results */
-  simulation: {
-    success: boolean;
-    gasUsed: number;
-    gasEstimate: number;
-    logs: SimulationLog[];
-    error?: string;
-    stateChanges: StateChange[];
-  };
-
-  /** Threat intelligence data */
-  threatIntel: {
-    fromAddress: AddressIntel | null;
-    toAddress: AddressIntel | null;
-    relatedScamDomains: string[];
-    knownExploitSignatures: string[];
-  };
-
-  /** Core AI analysis */
-  analysis: {
-    riskScore: number;        // 0 (safe) – 100 (dangerous)
-    confidence: number;       // 0.0 – 1.0
-    reasoning: string;        // Human-readable explanation
-    threats: ThreatMatch[];   // Matched threat indicators
-    recommendation: "block" | "warn" | "allow";
-    provider: "galileo" | "openai" | "fallback";
-  };
-
-  /** ISO 8601 timestamp */
-  timestamp: string;
-
-  /** On-chain storage root hash (when storage enabled) */
-  storageRootHash?: string;
-
-  /** Explorer URL for stored analysis */
-  storageExplorer?: string;
-
-  /** Which compute provider fulfilled the request */
-  computeProvider: "galileo" | "openai";
-}
-```
-
-**Usage example:**
-
-```typescript
-const result: AnalysisResult = await agent.analyzeTransaction({
-  from: "0xSender...",
-  to: "0xRecipient...",
-});
-
-// Check recommendation
-if (result.analysis.recommendation === "block") {
-  throw new Error(`Transaction blocked: ${result.analysis.reasoning}`);
-}
-
-// Inspect individual threats
-for (const threat of result.analysis.threats) {
-  console.log(`[${threat.severity}] ${threat.type}: ${threat.description}`);
-}
-
-// Verify on-chain storage
-if (result.storageRootHash) {
-  console.log(`Analysis stored on-chain: ${result.storageExplorer}`);
-}
-```
-
-### AIAnalyzer
-
-The `AIAnalyzer` module provides dual-provider AI analysis with automatic failover. The primary provider is **0G Compute via the Galileo network**; if it is unavailable, the system falls back to an OpenAI-compatible endpoint.
-
-```typescript
-import { AIAnalyzer } from "@sifix/agent";
-
-const analyzer = new AIAnalyzer({
-  primary: {
-    provider: "galileo",
-    endpoint: "https://galileo-compute.0g.ai/v1",
-    model: "sifix-security-v1",
-  },
-  fallback: {
-    provider: "openai",
-    endpoint: "https://api.openai.com/v1",
-    model: "gpt-4o",
-    apiKey: process.env.OPENAI_API_KEY,
-  },
-  timeout: 30_000, // ms
-});
-
-// Analyze raw transaction data
-const analysis = await analyzer.analyze({
-  from: "0xSender...",
-  to: "0xRecipient...",
-  data: "0x...",
-  value: "1000000000000000000",
-  simulationResult: { /* ... */ },
-  threatIntel: { /* ... */ },
-});
-
-console.log(analysis.provider); // "galileo" | "openai"
-console.log(analysis.riskScore); // 0–100
-```
-
-### TransactionSimulator
-
-Simulates a transaction against the blockchain to preview state changes, gas usage, and potential failures without actually submitting it on-chain.
-
-```typescript
-import { TransactionSimulator } from "@sifix/agent";
-
-const simulator = new TransactionSimulator({
-  rpcUrl: "https://galileo.onfinality.io/public",
-  chainId: 1,
-});
-
-// Run a full simulation
-const simulation = await simulator.simulate({
-  from: "0xSender...",
-  to: "0xRecipient...",
-  data: "0xa9059cbb...",
-  value: "1000000000000000000",
-});
-
-console.log(simulation.success);   // true | false
-console.log(simulation.gasUsed);   // e.g. 52341
-console.log(simulation.logs);      // decoded event logs
-console.log(simulation.stateChanges); // balance/token changes
-
-// Estimate gas only (lighter-weight call)
-const gasEstimate = await simulator.estimateGas({
-  from: "0xSender...",
-  to: "0xRecipient...",
-  data: "0xa9059cbb...",
-  value: "1000000000000000000",
-});
-
-console.log(gasEstimate); // e.g. 52341n (BigInt)
-```
-
-### StorageClient
-
-Persists analysis results on-chain via the Galileo network. Includes automatic retry logic (3 retries with exponential backoff) and an optional mock mode for local development.
-
-```typescript
-import { StorageClient } from "@sifix/agent";
-
-const storage = new StorageClient({
-  network: "galileo",
-  mockMode: false, // Set true to skip on-chain storage
-});
-
-// Store an analysis result (retries up to 3 times on failure)
-const hash = await storage.storeAnalysis({
-  analysisResult: result,
-  metadata: {
-    analyzedBy: "0xOperator...",
-    version: "1.5.0",
-  },
-});
-
-console.log(hash); // "0xabc123..." — on-chain storage root hash
-
-// Retrieve a previously stored analysis
-const retrieved = await storage.retrieveAnalysis(hash);
-
-console.log(retrieved.timestamp);     // ISO 8601
-console.log(retrieved.analysis.riskScore);
-```
-
-**Mock mode** — for local development and testing without on-chain writes:
-
-```typescript
-const storage = new StorageClient({ mockMode: true });
-
-const hash = await storage.storeAnalysis({
-  analysisResult: result,
-  metadata: { analyzedBy: "0xTest...", version: "1.5.0" },
-});
-// Returns a deterministic mock hash — no on-chain transaction created
-```
-
-### ThreatIntelProvider
-
-The `ThreatIntelProvider` interface defines the contract for threat intelligence data sources. Implement this interface to integrate custom threat feeds.
-
-```typescript
-import { ThreatIntelProvider, AddressIntel } from "@sifix/agent";
-
-// Define a custom provider
-class MyThreatProvider implements ThreatIntelProvider {
-  async getAddressIntel(address: string): Promise<AddressIntel | null> {
-    const response = await fetch(
-      `https://my-threat-api.example.com/address/${address}`
-    );
-    if (!response.ok) return null;
-    return response.json();
-  }
-
-  async saveScanResult(
-    address: string,
-    result: AddressIntel
-  ): Promise<void> {
-    await fetch("https://my-threat-api.example.com/scans", {
-      method: "POST",
-      body: JSON.stringify({ address, result }),
-    });
-  }
-}
-```
-
-**`AddressIntel` structure:**
-
-```typescript
-interface AddressIntel {
-  address: string;
-  riskScore: number;           // 0–100
-  labels: string[];            // e.g. ["phishing", "mixer"]
-  firstSeen: string;           // ISO 8601
-  lastSeen: string;            // ISO 8601
-  transactionCount: number;
-  associatedEntities: string[];
-}
-```
-
----
-
-## dApp REST API
-
-The SIFIX dApp exposes **35 REST endpoints** for scanning, analysis, threat intelligence, reporting, and user management.
-
-### Base URL & Authentication
+## Base URL & Authentication
 
 **Base URL:**
 
@@ -373,7 +19,7 @@ https://api.sifix.io/v1
 
 **Authentication:**
 
-Most endpoints require a JWT token obtained via the [Auth](#auth) flow. Include it in the `Authorization` header:
+Most endpoints require a JWT token obtained via the [Auth](#auth) flow (SIWE — Sign-In with Ethereum). Include it in the `Authorization` header:
 
 ```typescript
 const headers = {
@@ -382,13 +28,15 @@ const headers = {
 };
 ```
 
+Public endpoints (no auth required): `GET /health`, `GET /check-domain`
+
 ---
 
-### Scanning
+## Scanning
 
-#### `GET /check-domain`
+### `GET /check-domain`
 
-Check whether a domain is flagged as a known scam.
+Check whether a domain is flagged as a known scam. **Public endpoint — no authentication required.**
 
 **Query Parameters:**
 
@@ -396,8 +44,7 @@ Check whether a domain is flagged as a known scam.
 
 ```typescript
 const response = await fetch(
-  "https://api.sifix.io/v1/check-domain?domain=evil-phishing.com",
-  { headers }
+  "https://api.sifix.io/v1/check-domain?domain=evil-phishing.com"
 );
 
 const data = await response.json();
@@ -412,7 +59,7 @@ const data = await response.json();
 
 ---
 
-#### `GET /scan/:address`
+### `GET /scan/:address`
 
 Retrieve a cached scan result for an address. If no cached result exists, triggers a new scan.
 
@@ -432,13 +79,15 @@ const data = await response.json();
 //   riskScore: 82,
 //   labels: ["phishing", "drainer"],
 //   scannedAt: "2026-05-09T10:00:00Z",
-//   threats: [...]
+//   threats: [
+//     { type: "phishing", severity: "high", description: "..." }
+//   ]
 // }
 ```
 
 ---
 
-#### `POST /scan`
+### `POST /scan`
 
 Submit a new scan request for one or more addresses.
 
@@ -447,7 +96,7 @@ Submit a new scan request for one or more addresses.
 - `addresses` **`string[]`** — Array of EVM addresses to scan
 - `options` **`object`** *(optional)*
   - `deepScan` **`boolean`** — Enable extended analysis (default: `false`)
-  - `includeStorage` **`boolean`** — Persist result on-chain (default: `false`)
+  - `includeStorage` **`boolean`** — Persist result on 0G Storage (default: `false`)
 
 ```typescript
 const response = await fetch("https://api.sifix.io/v1/scan", {
@@ -469,18 +118,21 @@ const data = await response.json();
 // {
 //   scanId: "scan_abc123",
 //   status: "processing",
-//   results: [...],
+//   results: [
+//     { address: "0x1234...", riskScore: 82, status: "complete" },
+//     { address: "0xabcd...", riskScore: 12, status: "complete" }
+//   ],
 //   estimatedTime: "30s"
 // }
 ```
 
 ---
 
-### Analysis
+## Analysis
 
-#### `POST /analyze`
+### `POST /analyze`
 
-Perform a full AI-powered security analysis on a transaction or contract interaction.
+Perform a full AI-powered security analysis on a transaction or contract interaction. Runs simulation, threat intelligence lookup, and AI risk assessment.
 
 **Request Body:**
 
@@ -511,25 +163,31 @@ const response = await fetch("https://api.sifix.io/v1/analyze", {
 const data = await response.json();
 // {
 //   simulation: { success: true, gasUsed: 52341, ... },
-//   threatIntel: { ... },
+//   threatIntel: {
+//     fromAddress: null,
+//     toAddress: { riskScore: 72, labels: ["drainer"] },
+//     relatedScamDomains: [],
+//     knownExploitSignatures: []
+//   },
 //   analysis: {
 //     riskScore: 15,
 //     confidence: 0.92,
-//     reasoning: "Standard ERC-20 transfer...",
+//     reasoning: "Standard ERC-20 transfer to a verified address...",
 //     threats: [],
 //     recommendation: "allow",
 //     provider: "galileo"
 //   },
 //   timestamp: "2026-05-09T12:00:00Z",
-//   storageRootHash: "0xdef456..."
+//   storageRootHash: "0xdef456...",
+//   computeProvider: "galileo"
 // }
 ```
 
 ---
 
-#### `POST /extension/analyze`
+### `POST /extension/analyze`
 
-Analysis endpoint optimized for the browser extension. Accepts a lighter payload and returns a streamlined response suitable for popup/overlay UIs.
+Analysis endpoint optimized for the browser extension. Accepts a lighter payload and returns a streamlined response suitable for popup and overlay UIs.
 
 **Request Body:**
 
@@ -558,15 +216,19 @@ const data = await response.json();
 //   riskScore: 5,
 //   recommendation: "allow",
 //   summary: "Uniswap V3 token swap — no threats detected.",
-//   details: { ... }
+//   details: {
+//     simulation: { success: true, gasUsed: 184200 },
+//     threats: [],
+//     provider: "galileo"
+//   }
 // }
 ```
 
 ---
 
-### Threats
+## Threats
 
-#### `GET /threats`
+### `GET /threats`
 
 Retrieve a paginated list of known threats.
 
@@ -574,7 +236,7 @@ Retrieve a paginated list of known threats.
 
 - `page` **`number`** — Page number (default: `1`)
 - `limit` **`number`** — Results per page (default: `20`, max: `100`)
-- `category` **`string`** *(optional)* — Filter by category (e.g. `phishing`, `drainer`, `mixer`)
+- `category` **`string`** *(optional)* — Filter by category (`phishing`, `drainer`, `mixer`, `honeypot`, `rug-pull`)
 - `severity` **`string`** *(optional)* — Filter by severity (`low`, `medium`, `high`, `critical`)
 
 ```typescript
@@ -586,7 +248,15 @@ const response = await fetch(
 const data = await response.json();
 // {
 //   threats: [
-//     { id: "threat_001", type: "phishing", severity: "high", ... },
+//     {
+//       id: "threat_001",
+//       type: "phishing",
+//       severity: "high",
+//       address: "0xBadActor...",
+//       description: "Wallet drainer targeting DeFi users",
+//       firstSeen: "2025-11-15T...",
+//       reports: 23
+//     },
 //     ...
 //   ],
 //   pagination: { page: 1, limit: 10, total: 1423 }
@@ -595,14 +265,14 @@ const data = await response.json();
 
 ---
 
-#### `POST /threats/report`
+### `POST /threats/report`
 
-Submit a new threat report.
+Submit a new threat report. Requires authentication.
 
 **Request Body:**
 
 - `address` **`string`** — The malicious address
-- `category` **`string`** — Threat category
+- `category` **`string`** — Threat category (`phishing`, `drainer`, `mixer`, `honeypot`, `rug-pull`, `other`)
 - `description` **`string`** — Human-readable description
 - `evidence` **`string[]`** *(optional)* — URLs or transaction hashes as evidence
 - `domain` **`string | null`** *(optional)* — Associated scam domain
@@ -616,7 +286,7 @@ const response = await fetch("https://api.sifix.io/v1/threats/report", {
     category: "drainer",
     description: "Wallet drainer contract targeting NFT holders",
     evidence: [
-      "https://etherscan.io/tx/0xAbCd...",
+      "https://chainscan-galileo.0g.ai/tx/0xAbCd...",
     ],
     domain: "nft-claim-now.xyz",
   }),
@@ -628,9 +298,9 @@ const data = await response.json();
 
 ---
 
-### Reports
+## Reports
 
-#### `GET /reports`
+### `GET /reports`
 
 List all reports created by the authenticated user.
 
@@ -649,7 +319,15 @@ const response = await fetch(
 const data = await response.json();
 // {
 //   reports: [
-//     { id: "rpt_001", address: "0x...", status: "confirmed", ... },
+//     {
+//       id: "rpt_001",
+//       address: "0xBadAddr...",
+//       title: "Phishing contract",
+//       status: "confirmed",
+//       severity: "high",
+//       createdAt: "2026-04-20T...",
+//       votes: { up: 34, down: 1 }
+//     },
 //     ...
 //   ],
 //   pagination: { page: 1, limit: 10, total: 56 }
@@ -658,7 +336,7 @@ const data = await response.json();
 
 ---
 
-#### `POST /reports`
+### `POST /reports`
 
 Create a new report for a suspicious address or contract.
 
@@ -677,7 +355,7 @@ const response = await fetch("https://api.sifix.io/v1/reports", {
   body: JSON.stringify({
     address: "0xSuspicious...",
     title: "Ponzi scheme contract",
-    description: "This contract exhibits characteristics of a Ponzi scheme...",
+    description: "This contract exhibits characteristics of a Ponzi scheme with guaranteed returns...",
     tags: ["ponzi", "fraud"],
     severity: "critical",
   }),
@@ -689,7 +367,7 @@ const data = await response.json();
 
 ---
 
-#### `POST /reports/:id/vote`
+### `POST /reports/:id/vote`
 
 Vote on a report's validity. Requires authentication.
 
@@ -718,11 +396,11 @@ const data = await response.json();
 
 ---
 
-### Tags
+## Tags
 
-#### `GET /address-tags`
+### `GET /address-tags`
 
-Retrieve a paginated list of address tags.
+Retrieve a paginated list of address tags across the platform.
 
 **Query Parameters:**
 
@@ -739,7 +417,13 @@ const response = await fetch(
 const data = await response.json();
 // {
 //   tags: [
-//     { address: "0x...", tag: "drainer", addedBy: "0x...", ... },
+//     {
+//       id: "tag_001",
+//       address: "0xBadAddr...",
+//       tag: "drainer",
+//       addedBy: "0xReporter...",
+//       createdAt: "2026-03-15T..."
+//     },
 //     ...
 //   ],
 //   pagination: { page: 1, limit: 50, total: 230 }
@@ -748,9 +432,9 @@ const data = await response.json();
 
 ---
 
-#### `POST /address-tags`
+### `POST /address-tags`
 
-Tag an address with a label.
+Tag an address with a label. Requires authentication.
 
 **Request Body:**
 
@@ -775,7 +459,7 @@ const data = await response.json();
 
 ---
 
-#### `GET /address/:address/tags`
+### `GET /address/:address/tags`
 
 Retrieve all tags for a specific address.
 
@@ -801,41 +485,9 @@ const data = await response.json();
 
 ---
 
-#### `POST /address/:address/tags/vote`
+## Watchlist
 
-Vote on a tag's validity for an address.
-
-**Path Parameters:**
-
-- `address` **`string`** — EVM address
-
-**Request Body:**
-
-- `tag` **`string`** — The tag to vote on
-- `vote` **`"up" | "down"`** — Vote direction
-
-```typescript
-const response = await fetch(
-  "https://api.sifix.io/v1/address/0xBadAddr.../tags/vote",
-  {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
-      tag: "phishing",
-      vote: "up",
-    }),
-  }
-);
-
-const data = await response.json();
-// { tag: "phishing", votes: { up: 35, down: 2 } }
-```
-
----
-
-### Watchlist
-
-#### `GET /watchlist`
+### `GET /watchlist`
 
 Retrieve the authenticated user's watchlist of monitored addresses.
 
@@ -848,10 +500,12 @@ const data = await response.json();
 // {
 //   watchlist: [
 //     {
+//       id: "wl_001",
 //       address: "0xMonitored...",
 //       label: "Suspicious whale",
 //       addedAt: "2026-04-15T08:30:00Z",
-//       lastActivity: "2026-05-09T14:22:00Z"
+//       lastActivity: "2026-05-09T14:22:00Z",
+//       riskScore: 45
 //     },
 //     ...
 //   ]
@@ -860,7 +514,7 @@ const data = await response.json();
 
 ---
 
-#### `POST /watchlist`
+### `POST /watchlist`
 
 Add an address to the authenticated user's watchlist.
 
@@ -885,7 +539,7 @@ const data = await response.json();
 
 ---
 
-#### `DELETE /watchlist/:address`
+### `DELETE /watchlist/:address`
 
 Remove an address from the authenticated user's watchlist.
 
@@ -908,17 +562,17 @@ const data = await response.json();
 
 ---
 
-### Scam Domains
+## Scam Domains
 
-#### `GET /scam-domains`
+### `GET /scam-domains`
 
-Retrieve a paginated list of known scam domains.
+Retrieve a paginated list of known scam domains tracked by SIFIX.
 
 **Query Parameters:**
 
 - `page` **`number`** — Page number (default: `1`)
 - `limit` **`number`** — Results per page (default: `20`)
-- `category` **`string`** *(optional)* — Filter by category
+- `category` **`string`** *(optional)* — Filter by category (`phishing`, `drainer`, `impersonation`, `fake-airdrop`)
 
 ```typescript
 const response = await fetch(
@@ -929,7 +583,13 @@ const response = await fetch(
 const data = await response.json();
 // {
 //   domains: [
-//     { domain: "evil-phishing.com", category: "phishing", reports: 47, ... },
+//     {
+//       domain: "evil-phishing.com",
+//       category: "phishing",
+//       status: "active",
+//       reports: 47,
+//       firstReported: "2025-11-02T..."
+//     },
 //     ...
 //   ],
 //   pagination: { page: 1, limit: 50, total: 8901 }
@@ -938,9 +598,9 @@ const data = await response.json();
 
 ---
 
-#### `GET /scam-domains/check`
+### `GET /scam-domains/check`
 
-Quickly check whether a specific domain is flagged.
+Quickly check whether a specific domain is flagged. Returns a lightweight response optimized for the extension's domain safety pipeline.
 
 **Query Parameters:**
 
@@ -958,9 +618,9 @@ const data = await response.json();
 
 ---
 
-#### `GET /scam-domains/:domain`
+### `GET /scam-domains/:domain`
 
-Retrieve detailed information about a specific scam domain.
+Retrieve detailed information about a specific scam domain, including associated addresses and targeted chains.
 
 **Path Parameters:**
 
@@ -980,20 +640,20 @@ const data = await response.json();
 //   firstReported: "2025-12-01T...",
 //   lastReported: "2026-05-09T...",
 //   reports: 12,
-//   associatedAddresses: ["0x...", "0x..."],
-//   targetChains: ["ethereum", "polygon"]
+//   associatedAddresses: ["0xBad1...", "0xBad2..."],
+//   targetChains: ["ethereum", "polygon", "0g-galileo"]
 // }
 ```
 
 ---
 
-### Auth
+## Auth
 
 SIFIX uses a **SIWE (Sign-In with Ethereum)** flow for authentication. The client requests a nonce, signs it with their wallet, and verifies the signature to obtain a JWT.
 
-#### `POST /auth/nonce`
+### `POST /auth/nonce`
 
-Request a unique nonce for wallet signing.
+Request a unique nonce for wallet signing. **No authentication required.**
 
 **Request Body:**
 
@@ -1015,9 +675,9 @@ const { nonce, message } = await nonceResponse.json();
 
 ---
 
-#### `POST /auth/verify`
+### `POST /auth/verify`
 
-Verify a signed SIWE message and obtain a JWT token.
+Verify a signed SIWE message and obtain a JWT token. **No authentication required.**
 
 **Request Body:**
 
@@ -1041,11 +701,13 @@ const { token, expiresAt } = await verifyResponse.json();
 // { token: "eyJhbGciOiJIUzI1NiIs...", expiresAt: "2026-05-10T12:00:00Z" }
 ```
 
+The returned `token` should be included as `Authorization: Bearer <token>` in all subsequent authenticated requests. Tokens expire after **24 hours**.
+
 ---
 
-#### `GET /auth/verify-token`
+### `GET /auth/verify-token`
 
-Validate an existing JWT token. Useful for checking token validity on app startup.
+Validate an existing JWT token. Useful for checking token validity on app startup or after page refresh.
 
 ```typescript
 const response = await fetch("https://api.sifix.io/v1/auth/verify-token", {
@@ -1058,9 +720,9 @@ const data = await response.json();
 
 ---
 
-### System
+## System
 
-#### `GET /stats`
+### `GET /stats`
 
 Retrieve platform-wide statistics.
 
@@ -1080,7 +742,7 @@ const data = await response.json();
 
 ---
 
-#### `GET /leaderboard`
+### `GET /leaderboard`
 
 Retrieve the contributor leaderboard. Rankings are based on verified reports, community votes, and activity.
 
@@ -1109,7 +771,7 @@ const data = await response.json();
 
 ---
 
-#### `GET /history`
+### `GET /history`
 
 Retrieve the authenticated user's activity history across scans, reports, and votes.
 
@@ -1128,7 +790,7 @@ const response = await fetch(
 const data = await response.json();
 // {
 //   history: [
-//     { id: "scan_abc123", type: "scan", address: "0x...", timestamp: "..." },
+//     { id: "scan_abc123", type: "scan", address: "0x...", riskScore: 72, timestamp: "..." },
 //     ...
 //   ],
 //   pagination: { page: 1, limit: 10, total: 234 }
@@ -1137,7 +799,7 @@ const data = await response.json();
 
 ---
 
-#### `GET /scan-history`
+### `GET /scan-history`
 
 Retrieve the authenticated user's scan history specifically (a focused version of `/history`).
 
@@ -1169,9 +831,9 @@ const data = await response.json();
 
 ---
 
-### Settings
+## Settings
 
-#### `GET /settings/ai-provider`
+### `GET /settings/ai-provider`
 
 Retrieve the current AI provider configuration for the authenticated user.
 
@@ -1191,11 +853,11 @@ const data = await response.json();
 
 ---
 
-### Storage
+## Storage
 
-#### `GET /storage/:hash/download`
+### `GET /storage/:hash/download`
 
-Download a previously stored on-chain analysis by its storage root hash.
+Download a previously stored on-chain analysis by its 0G Storage root hash.
 
 **Path Parameters:**
 
@@ -1210,7 +872,12 @@ const response = await fetch(
 const data = await response.json();
 // {
 //   hash: "0xdef456...",
-//   analysis: { ... },
+//   analysis: {
+//     riskScore: 15,
+//     recommendation: "allow",
+//     reasoning: "Standard ERC-20 transfer...",
+//     threats: []
+//   },
 //   metadata: { analyzedBy: "0x...", version: "1.5.0" },
 //   storedAt: "2026-05-08T09:15:00Z"
 // }
@@ -1218,11 +885,11 @@ const data = await response.json();
 
 ---
 
-### Identity
+## Identity
 
-#### `GET /agentic-id`
+### `GET /agentic-id`
 
-Retrieve the agentic identity information for the authenticated user. This includes on-chain identity data, reputation score, and verifiable credentials.
+Retrieve the agentic identity information for the authenticated user. Returns on-chain identity data, reputation score, and verifiable credentials linked to ERC-7857.
 
 ```typescript
 const response = await fetch("https://api.sifix.io/v1/agentic-id", {
@@ -1245,11 +912,11 @@ const data = await response.json();
 
 ---
 
-### Health
+## Health
 
-#### `GET /health`
+### `GET /health`
 
-Public endpoint to check API health and uptime status. No authentication required.
+Public endpoint to check API health and uptime status. **No authentication required.**
 
 ```typescript
 const response = await fetch("https://api.sifix.io/v1/health");
@@ -1288,12 +955,14 @@ interface ApiError {
 
 **Common error codes:**
 
-- **`400`** — Validation error (missing or invalid parameters)
-- **`401`** — Unauthorized (missing or invalid JWT)
-- **`404`** — Resource not found
-- **`429`** — Rate limit exceeded
-- **`500`** — Internal server error
-- **`503`** — Service unavailable (AI provider or network issue)
+- **`400`** `VALIDATION_ERROR` — Missing or invalid parameters
+- **`401`** `UNAUTHORIZED` — Missing or invalid JWT
+- **`403`** `FORBIDDEN` — Insufficient permissions
+- **`404`** `NOT_FOUND` — Resource not found
+- **`409`** `CONFLICT` — Duplicate resource or state conflict
+- **`429`** `RATE_LIMITED` — Rate limit exceeded
+- **`500`** `INTERNAL_ERROR` — Internal server error
+- **`503`** `SERVICE_UNAVAILABLE` — AI provider or network issue
 
 ```typescript
 const response = await fetch("https://api.sifix.io/v1/scan/invalid-address", {
@@ -1310,11 +979,9 @@ if (!response.ok) {
 
 ## Rate Limits
 
-| Tier | Requests/min | Requests/day |
-|------|-------------|-------------|
-| Free | 30 | 1,000 |
-| Pro | 120 | 10,000 |
-| Enterprise | Custom | Custom |
+- **Free tier:** 30 requests/min · 1,000 requests/day
+- **Pro tier:** 120 requests/min · 10,000 requests/day
+- **Enterprise:** Custom limits
 
 Rate limit headers are included in every response:
 
@@ -1336,10 +1003,70 @@ console.log(`${remaining}/${limit} requests remaining (resets at ${reset})`);
 
 ---
 
-## SDK Version Compatibility
+## Endpoint Summary
 
-| @sifix/agent | dApp API | Galileo Network | Minimum Node.js |
-|---|---|---|---|
-| v1.5.0 | v1 | Galileo mainnet | 18.x |
-| v1.4.x | v1 | Galileo testnet | 18.x |
-| v1.3.x | v1 | Galileo testnet | 16.x |
+All 35 endpoints organized by domain:
+
+**Scanning (3)**
+- `GET /check-domain` — Check domain scam status (public)
+- `GET /scan/:address` — Get cached scan or trigger new scan
+- `POST /scan` — Batch scan addresses
+
+**Analysis (2)**
+- `POST /analyze` — Full AI security analysis
+- `POST /extension/analyze` — Lightweight extension analysis
+
+**Threats (2)**
+- `GET /threats` — List known threats
+- `POST /threats/report` — Submit threat report
+
+**Reports (3)**
+- `GET /reports` — List user reports
+- `POST /reports` — Create report
+- `POST /reports/:id/vote` — Vote on report
+
+**Tags (3)**
+- `GET /address-tags` — List address tags
+- `POST /address-tags` — Tag an address
+- `GET /address/:address/tags` — Get tags for address
+
+**Watchlist (3)**
+- `GET /watchlist` — List watched addresses
+- `POST /watchlist` — Add to watchlist
+- `DELETE /watchlist/:address` — Remove from watchlist
+
+**Scam Domains (3)**
+- `GET /scam-domains` — List scam domains
+- `GET /scam-domains/check` — Quick domain check
+- `GET /scam-domains/:domain` — Domain details
+
+**Auth (3)**
+- `POST /auth/nonce` — Request SIWE nonce (public)
+- `POST /auth/verify` — Verify signature, get JWT (public)
+- `GET /auth/verify-token` — Validate existing JWT
+
+**System (4)**
+- `GET /stats` — Platform statistics
+- `GET /leaderboard` — Contributor rankings
+- `GET /history` — User activity history
+- `GET /scan-history` — User scan history
+
+**Settings (1)**
+- `GET /settings/ai-provider` — AI provider config
+
+**Storage (1)**
+- `GET /storage/:hash/download` — Download on-chain analysis
+
+**Identity (1)**
+- `GET /agentic-id` — User agentic identity
+
+**Health (1)**
+- `GET /health` — API health check (public)
+
+---
+
+## Related
+
+- [@sifix/agent SDK](./agent-sdk.md) — TypeScript SDK for programmatic access
+- [Extension API](./extension-api.md) — Chrome extension message API
+- [0G Storage API](./0g-storage-api.md) — 0G Storage integration details
