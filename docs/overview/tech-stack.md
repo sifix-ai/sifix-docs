@@ -8,7 +8,7 @@ description: Complete technology breakdown — why every tool in the SIFIX stack
 > **⚡ TL;DR**
 > SIFIX is built with modern, battle-tested technologies across 3 repositories: a **Next.js** web dashboard, a **Chrome extension** for real-time wallet protection, and a **TypeScript SDK** for the core security engine. Everything runs on the **0G Galileo** blockchain, which provides built-in AI computing and data storage. Each technology was chosen for a specific reason — not because it's trendy, but because it's the right tool for the job.
 
-SIFIX is built as a modular system across three repositories, each with a focused technology stack optimized for its role in the security pipeline.
+SIFIX is split into clear modules so each part can do one job well: browser protection, backend processing, and AI security analysis.
 
 ---
 

@@ -28,7 +28,15 @@ SIFIX is built entirely on the **0G Galileo Testnet** (a blockchain test network
 
 ## Technical Architecture
 
-SIFIX is a three-tier AI-powered Web3 security platform built entirely on the **0G Galileo Testnet** (Chain ID: 16602). The system is composed of three independent repositories — **sifix-extension**, **sifix-dapp**, and **sifix-agent** — that form a cohesive pipeline for intercepting, simulating, analyzing, and storing blockchain transaction security data.
+SIFIX is a three-part system on **0G Galileo (Chain 16602)**:
+
+- **Extension**: catches risky actions before wallet signature.
+- **dApp server**: runs API + orchestration.
+- **Agent SDK**: simulates, analyzes, scores, and stores evidence.
+
+In short: **capture → simulate → analyze → explain**.
+
+The goal is simple: make transaction risk understandable before user signs.
 
 ---
 
