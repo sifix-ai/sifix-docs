@@ -3,18 +3,31 @@ title: Introduction
 description: What is SIFIX — AI-Powered Wallet Security for Web3
 ---
 
+<div class="intro-hero" align="center">
+
 # Introduction to SIFIX
 
-![0G Galileo](https://img.shields.io/badge/Network-0G%20Galileo%20Testnet-6C5CE7?style=flat-square)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square)
-![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
-![SDK v1.5.0](https://img.shields.io/badge/SDK-v1.5.0-FF6B6B?style=flat-square)
+<p class="hero-badges" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0 0;">
+  <img src="https://img.shields.io/badge/Network-0G%20Galileo%20Testnet-6C5CE7?style=flat-square" alt="0G Galileo" />
+  <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="MIT License" />
+  <img src="https://img.shields.io/badge/SDK-v1.5.0-FF6B6B?style=flat-square" alt="SDK v1.5.0" />
+</p>
+
+</div>
+
+> **⚡ TL;DR**
+> SIFIX is a security tool for crypto wallets that checks every transaction *before* you sign it. Think of it as a **spell-checker for blockchain transactions** — it catches dangerous actions (like accidentally giving a scammer access to your tokens) before they happen, using AI to understand what a transaction *actually* does.
 
 ## What is SIFIX?
 
 SIFIX is an **AI-Powered Wallet Security platform for Web3** that acts as an intelligent guardian between users and malicious on-chain activity. It intercepts, simulates, and analyzes every transaction before it reaches the blockchain — providing real-time risk assessment and protection against phishing, rug pulls, approval scams, and other exploits.
 
+**In plain English:** Imagine you're about to mail a package, but before you hand it to the post office, a security expert opens it, inspects every item inside, and tells you "this package actually contains a bomb — don't send it." That's SIFIX for your crypto transactions.
+
 Built on the **0G Galileo Testnet** (Chain ID: `16602`), SIFIX combines on-chain simulation with multi-model AI analysis to deliver threat intelligence that traditional wallets simply cannot match.
+
+> **What is 0G?** 0G (Zero Gravity) is a modular AI blockchain — think of it as a blockchain specifically designed to run AI applications. Its "Galileo Testnet" is the live test network where developers build and test before going to production. SIFIX uses 0G's built-in AI compute engine and data storage layer as core parts of its security pipeline.
 
 **Contract Address:** `0x2700F6A3e505402C9daB154C5c6ab9cAEC98EF1F`  
 **Token ID:** `99`
@@ -104,5 +117,5 @@ graph TB
 - **[Problem Statement](./problem-statement.md)** — Understand the Web3 security crisis
 - **[Solution](./solution.md)** — How SIFIX's AI pipeline protects you
 - **[Tech Stack](./tech-stack.md)** — Full technology breakdown
-- **[Architecture](../architecture/)** — Deep dive into system design
-- **[Getting Started](../getting-started/)** — Install and run SIFIX
+- **[System Architecture](../architecture/system-overview)** — Deep dive into system design
+- **[Quick Start](../guides/quick-start)** — Install and run SIFIX in 5 minutes

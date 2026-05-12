@@ -5,6 +5,9 @@ description: The Web3 security crisis — why $3.8 billion was lost in 2022 and 
 
 # Problem Statement
 
+> **⚡ TL;DR**
+> Crypto users lost **$3.8 billion** to scams in 2022 because existing wallets let users sign transactions they can't understand. It's like being asked to sign a legal contract written in a foreign language with no translator — and your money disappears the moment you sign. SIFIX fixes this by adding an AI "translator" that explains what each transaction *actually* does before you approve it.
+
 ## The Web3 Security Crisis
 
 Web3 was designed to give users financial sovereignty — but sovereignty without security is a liability. Every year, billions of dollars are drained from wallets through attacks that exploit the fundamental opacity of blockchain transactions. Users sign payloads they don't understand, interact with contracts they can't audit, and trust interfaces that can be spoofed in seconds.
@@ -25,7 +28,7 @@ This isn't a user education problem — it's an **infrastructure problem**. The 
 
 ### 🎣 Phishing Attacks ($3.8B+ Total Losses)
 
-Phishing remains the most effective attack vector in Web3. Attackers clone popular dApp interfaces (Uniswap, OpenSea,Blur) and lure users into signing malicious transactions. The payloads look identical to legitimate operations but silently drain wallets.
+Phishing remains the most effective attack vector in Web3. Attackers clone popular dApp interfaces (Uniswap, OpenSea, Blur) and lure users into signing malicious transactions. The payloads look identical to legitimate operations but silently drain wallets.
 
 **How it works:**
 1. Attacker creates a pixel-perfect clone of a trusted dApp
@@ -95,7 +98,7 @@ When a user clicks "Sign" in MetaMask, they see a hex-encoded `data` field and a
 
 ### Static Blocklists Don't Scale
 
-Most wallet security relies on maintain lists of known-bad addresses and contract hashes. This approach:
+Most wallet security relies on maintaining lists of known-bad addresses and contract hashes. This approach:
 - Can't detect **zero-day** attacks (new contracts, new phishing domains)
 - Requires **constant manual updates** with hours-to-days of lag
 - Is trivially bypassed by deploying a **new contract address** for each attack campaign
@@ -113,6 +116,8 @@ Most security tools alert users **after** a transaction is confirmed. By then, t
 
 ## Why AI is the Answer
 
+> **What is 0G?** 0G (Zero Gravity) is a **modular AI blockchain** — a blockchain purpose-built to run artificial intelligence applications natively. Unlike traditional blockchains that only handle transactions, 0G has built-in AI computing power and a data storage layer. SIFIX uses 0G's **Compute** service to run AI models on-chain (so analysis results are trustworthy and verifiable) and 0G's **Storage** layer to persist security reports in a decentralized way.
+
 The fundamental insight behind SIFIX is that **transaction security is a classification problem** — and modern AI is exceptionally good at classification when given the right inputs.
 
 **AI provides what static analysis cannot:**
@@ -129,7 +134,7 @@ The fundamental insight behind SIFIX is that **transaction security is a classif
 ## Summary
 
 | Factor | Current State | SIFIX Approach |
-|---|---|
+|---|---|---|
 | Transaction visibility | Hex calldata, no interpretation | Human-readable simulation + AI analysis |
 | Threat detection | Static blocklists, hours of lag | Real-time AI classification, zero-day capable |
 | Protection timing | Post-transaction alerts | Pre-signature interception |
