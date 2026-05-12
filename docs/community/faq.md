@@ -31,7 +31,7 @@ Future mainnet releases may introduce tiered plans for enterprise features, but 
 
 SIFIX currently operates on the **0G Galileo Testnet** (Chain ID: `16602`). This is where all transaction simulation, AI analysis, and evidence storage take place.
 
-Multi-chain support for Ethereum, Polygon, Arbitrum, Base, and BSC is planned for **v1.6.0**. See the [Changelog](./changelog.md) for roadmap details.
+Multi-chain support for Ethereum, Polygon, Arbitrum, Base, and BSC is planned for **v1.6.0**. See the [Changelog](./changelog) for roadmap details.
 
 ---
 
@@ -151,7 +151,7 @@ SIFIX supports 5 AI providers with different strengths:
 Currently, SIFIX supports the 0G Galileo Testnet natively. Adding custom chains is planned for v1.6.0. In the meantime, you can configure a custom RPC endpoint:
 
 ```typescript
-import { SecurityAgent } from 'sifix-agent';
+import { SecurityAgent } from "@sifix/agent";
 
 const agent = new SecurityAgent({
   network: {
@@ -166,7 +166,7 @@ const agent = new SecurityAgent({
 });
 ```
 
-For multi-chain support updates, follow the [Changelog](./changelog.md).
+For multi-chain support updates, follow the [Changelog](./changelog).
 
 ---
 
@@ -209,7 +209,7 @@ pnpm dev
 # Extension auto-loads in Chrome
 ```
 
-For detailed setup instructions, see the [Contributing](./contributing.md) guide.
+For detailed setup instructions, see the [Contributing](./contributing) guide.
 
 ---
 
@@ -253,10 +253,10 @@ Each factor is weighted based on its historical correlation with malicious activ
 
 ### Can I use SIFIX programmatically?
 
-Yes. The `sifix-agent` SDK is designed for programmatic use:
+Yes. The `@sifix/agent` SDK is designed for programmatic use:
 
 ```typescript
-import { SecurityAgent } from 'sifix-agent';
+import { SecurityAgent } from "@sifix/agent";
 
 const agent = new SecurityAgent({
   ai: { provider: 'openai', apiKey: process.env.OPENAI_API_KEY },
@@ -264,26 +264,20 @@ const agent = new SecurityAgent({
 });
 
 // Analyze a single transaction
-const report = await agent.analyzeTransaction({
+const result = await agent.analyzeTransaction({
   from: '0x1234...5678',
   to: '0xABCDef...1234',
-  value: BigInt('1000000000000000000'), // 1 ETH
+  value: "1000000000000000000", // 1 ETH as string
   data: '0x...',
 });
 
-console.log(report.riskScore);    // 85
-console.log(report.riskTier);     // 'CRITICAL'
-console.log(report.explanation);  // AI-generated explanation
-console.log(report.evidenceHash); // 0G Storage root hash
-
-// Batch analyze multiple transactions
-const reports = await agent.analyzeBatch([
-  { from: '0x...', to: '0x...', data: '0x...' },
-  { from: '0x...', to: '0x...', data: '0x...' },
-]);
+console.log(result.analysis.riskScore);      // 85
+console.log(result.analysis.recommendation); // 'CRITICAL'
+console.log(result.analysis.reasoning);      // AI-generated explanation
+console.log(result.storageRootHash);         // 0G Storage root hash
 ```
 
-See the [Agent SDK Reference](../api-reference/agent-sdk.md) for the full API.
+See the [Agent SDK Reference](../api-reference/agent-sdk) for the full API.
 
 ---
 
@@ -342,7 +336,7 @@ Traditional security tools operate as faceless services — users have no way to
 
 In practice, when SIFIX flags a contract as malicious or verifies a domain as safe, these verdicts carry the weight of a **cryptographically signed, on-chain identity** — not just an anonymous API response.
 
-See [Agentic Identity](../product/agentic-identity.md) for the full technical deep-dive.
+See [Agentic Identity](../product/agentic-identity) for the full technical deep-dive.
 
 ---
 
@@ -366,4 +360,4 @@ All SIFIX repositories are open-source on GitHub:
 - **[sifix-extension](https://github.com/sifix-ai/sifix-extension)** — Chrome Extension (MV3)
 - **[sifix-docs](https://github.com/sifix-ai/sifix-docs)** — Documentation Site
 
-All repositories are licensed under the **MIT License**. See [Contributing](./contributing.md) for how to get started.
+All repositories are licensed under the **MIT License**. See [Contributing](./contributing) for how to get started.

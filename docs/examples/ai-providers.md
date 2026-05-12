@@ -538,8 +538,8 @@ const agent = new SecurityAgent({
 
 ## Related
 
-- **[Basic Analysis](./basic-analysis.md)** — Use providers to analyze common transaction types
-- **[Storage](./storage.md)** — Store analysis results on 0G Storage
-- **[Advanced Patterns](./advanced.md)** — Batch analysis with concurrent provider calls
+- **[Basic Analysis](./basic-analysis)** — Use providers to analyze common transaction types
+- **[Storage](./storage)** — Store analysis results on 0G Storage
+- **[Advanced Patterns](./advanced)** — Batch analysis with concurrent provider calls
 - **[Agent SDK — AIAnalyzer](../api-reference/agent-sdk.md#aianalyzer)** — Full API reference
-- **[0G Integration](../product/0g-integration.md)** — Deep dive into 0G Compute architecture
+- **[0G Integration](../product/0g-integration)** — Deep dive into 0G Compute architecture

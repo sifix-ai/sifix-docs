@@ -5,7 +5,23 @@ description: "ERC-7857 Agentic ID — SIFIX AI agent's on-chain identity on 0G G
 
 # Agentic Identity
 
+> **TL;DR** — The SIFIX AI agent has its own on-chain ID card (ERC-7857). Every security verdict it produces is cryptographically signed by this identity — so anyone can verify *who* analyzed their contract, not just *what* the result was.
+
 SIFIX's AI agent possesses a verifiable **on-chain identity** through **ERC-7857 (Agentic ID)** — an experimental standard for giving autonomous AI agents a cryptographically provable identity on-chain. This identity allows the agent to sign analysis results, establish trust, and be held accountable for its security verdicts.
+
+---
+
+## Why This Matters
+
+Imagine receiving a security report that says "this contract is safe." How do you know *who* actually produced that analysis? Without an on-chain identity, it could have come from anyone — or been tampered with in transit.
+
+**Just like a doctor needs a medical license to practice, SIFIX needs an on-chain identity to prove its analysis came from a verified AI agent.** Here's why that matters in simple terms:
+
+- **Accountability** — Every verdict is tied to a specific, verifiable agent. If the agent produces bad analysis, the identity owner is identifiable on-chain.
+- **Trust without intermediaries** — You don't have to trust SIFIX's servers. You verify the signature against the on-chain identity yourself — no middleman required.
+- **Tamper-proof audit trail** — Each signed result is stored immutably on 0G Storage. Nobody can retroactively change a "danger" verdict to "safe."
+- **Interoperability** — Other smart contracts and AI agents can programmatically verify the SIFIX agent's identity before accepting its reports — enabling a future of trusted agent-to-agent communication.
+- **Revocability** — If the agent's key is ever compromised, the owner can revoke the identity on-chain — immediately invalidating all future reports signed by the old key.
 
 ---
 
@@ -80,13 +96,13 @@ The agent identity was registered by the owner address through the ERC-7857 cont
 ```solidity
 // Register the SIFIX agent
 erc7857.registerAgent(
-    tokenId: 99,
-    metadata: {
-        name: "SIFIX Security Agent",
-        version: "1.5.0",
-        capabilities: ["security-analysis", "threat-detection", "transaction-simulation"],
-        network: "0g-galileo-testnet"
-    }
+    99,  // tokenId
+    abi.encode(
+        "SIFIX Security Agent",  // name
+        "1.5.0",                  // version
+        "security-analysis,threat-detection,transaction-simulation",  // capabilities
+        "0g-galileo-testnet"      // network
+    )
 );
 ```
 
@@ -208,6 +224,6 @@ Or view directly on the explorer:
 
 ## Related
 
-- [AI Agent](./ai-agent.md) — The security engine that holds this identity
-- [0G Integration](./0g-integration.md) — Storage and compute infrastructure
-- [Dashboard](./dashboard.md) — View agent identity status and attestation history
+- [AI Agent](./ai-agent) — The security engine that holds this identity
+- [0G Integration](./0g-integration) — Storage and compute infrastructure
+- [Dashboard](./dashboard) — View agent identity status and attestation history

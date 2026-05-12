@@ -5,6 +5,8 @@ description: "SIFIX browser extension — AI-powered wallet security built with 
 
 # Chrome Extension
 
+> **TL;DR** — A Chrome extension that acts as your Web3 bodyguard. It watches every transaction you make, scans every dApp you visit, and warns you *before* you interact with something malicious — all inside a compact browser popup.
+
 The SIFIX Chrome Extension is the user-facing entry point for real-time Web3 wallet protection. Built on **Plasmo 0.88** with **Manifest V3**, it intercepts transactions, scans domains, and delivers instant security verdicts without leaving the browser.
 
 ---
@@ -261,6 +263,6 @@ pnpm dev
 
 ## Related
 
-- [Dashboard](./dashboard.md) — Full SIFIX dApp dashboard
-- [AI Agent](./ai-agent.md) — The security analysis engine powering the extension
-- [0G Integration](./0g-integration.md) — How evidence is stored on-chain
+- [Dashboard](./dashboard) — Full SIFIX dApp dashboard
+- [AI Agent](./ai-agent) — The security analysis engine powering the extension
+- [0G Integration](./0g-integration) — How evidence is stored on-chain

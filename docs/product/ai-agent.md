@@ -5,6 +5,10 @@ description: "sifix-agent SDK v1.5.0 — the AI-powered security analysis engine
 
 # AI Agent
 
+> **TL;DR** — The brain behind SIFIX. It simulates transactions, runs AI analysis, checks threat databases, and stores tamper-proof evidence on-chain — all through a modular SDK you can plug into any app.
+
+**In Plain English:** Think of the AI Agent as a security auditor that never sleeps. When you scan a contract or send a transaction, this agent simulates what would happen, asks an AI model to assess the risk, cross-references past threat data, and then stamps the result with cryptographic proof on 0G Storage — so nobody can dispute the verdict later.
+
 The **sifix-agent SDK** (v1.5.0) is the core intelligence engine behind SIFIX. It orchestrates transaction simulation, AI-powered risk analysis, threat intelligence aggregation, and immutable evidence storage — all through a modular, extensible pipeline.
 
 ---
@@ -332,7 +336,7 @@ interface SecurityReport {
 
 ## Related
 
-- [Chrome Extension](./extension.md) — Uses the agent for real-time analysis
-- [Dashboard](./dashboard.md) — Agent configuration and monitoring
-- [0G Integration](./0g-integration.md) — Storage and compute deep dive
-- [Agentic Identity](./agentic-identity.md) — On-chain agent identity
+- [Chrome Extension](./extension) — Uses the agent for real-time analysis
+- [Dashboard](./dashboard) — Agent configuration and monitoring
+- [0G Integration](./0g-integration) — Storage and compute deep dive
+- [Agentic Identity](./agentic-identity) — On-chain agent identity

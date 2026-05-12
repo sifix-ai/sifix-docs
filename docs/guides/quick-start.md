@@ -5,9 +5,19 @@ description: Get SIFIX running and analyze your first transaction in 5 minutes �
 
 # Quick Start
 
+> **TL;DR** — `pnpm add @sifix/agent`, create a `SecurityAgent` with your API key, call `agent.analyzeTransaction()` with transaction params, and read the risk score + recommendation from the result.
+
 Get from zero to your first AI-powered transaction analysis in **5 minutes**. This guide walks you through installing the SDK, initializing the agent, analyzing a transaction, and understanding the results.
 
-**Prerequisites:** Node.js ≥ 18, pnpm, and an AI API key (OpenAI, Groq, or any OpenAI-compatible provider).
+---
+
+> **📋 Prerequisites**
+>
+> Before you begin, make sure you have:
+>
+> - **Node.js** ≥ 18 installed — [Download](https://nodejs.org/)
+> - **pnpm** package manager — `npm install -g pnpm`
+> - **An AI API key** from any OpenAI-compatible provider (OpenAI, Groq, OpenRouter, or local Ollama)
 
 ---
 
@@ -349,8 +359,8 @@ Standard ERC-20 token transfer to a known address. No suspicious patterns detect
 
 ## What's Next?
 
-- **[Configuration](./configuration.md)** — Set up 0G Compute, real storage, and advanced AI providers
-- **[Installation](./installation.md)** — Full platform installation with all three components
-- **[Extension Setup](./extension-setup.md)** — Detailed extension configuration guide
-- **[API Reference](/api.md)** — Complete SDK and REST API documentation
-- **[Architecture](/architecture/)** — Understand the simulation and analysis pipeline
+- **[Configuration](./configuration)** — Set up 0G Compute, real storage, and advanced AI providers
+- **[Installation](./installation)** — Full platform installation with all three components
+- **[Extension Setup](./extension-setup)** — Detailed extension configuration guide
+- **[API Reference](/api)** — Complete SDK and REST API documentation
+- **[System Architecture](/architecture/system-overview)** — Understand the simulation and analysis pipeline

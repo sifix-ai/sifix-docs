@@ -5,6 +5,8 @@ description: Deploy SIFIX to production — dApp on Vercel, docs on GitHub Pages
 
 # Deployment
 
+> **TL;DR** — Push `sifix-dapp` to GitHub → import in Vercel → set 14 environment variables → deploy. Docs auto-deploy to GitHub Pages via Actions. Extension builds from `build/chrome-mv3-prod/` for Chrome Web Store distribution.
+
 This guide covers deploying the SIFIX platform to production. You'll deploy the dApp dashboard to Vercel, documentation to GitHub Pages, and prepare the Chrome extension for distribution.
 
 ---
@@ -623,7 +625,7 @@ Before going live, verify:
 
 ## Next Steps
 
-- **[Installation](./installation.md)** — Full setup guide
-- **[Configuration](./configuration.md)** — Complete environment variable reference
-- **[Quick Start](./quick-start.md)** — Analyze your first transaction
-- **[Architecture](/architecture/)** — System design deep dive
+- **[Installation](./installation)** — Full setup guide
+- **[Configuration](./configuration)** — Complete environment variable reference
+- **[Quick Start](./quick-start)** — Analyze your first transaction
+- **[System Architecture](/architecture/system-overview)** — System design deep dive

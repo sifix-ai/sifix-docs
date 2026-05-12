@@ -38,7 +38,7 @@ Built on the **0G Galileo Testnet** (Chain ID: `16602`), SIFIX combines on-chain
 
 Web3 users lost over **$3.8 billion** to scams and exploits in 2022 alone. Existing wallets provide little to no transaction-level intelligence — users sign blind, hoping for the best. Traditional security tools rely on static allow/block lists that can't keep up with novel attack vectors.
 
-→ *See [Problem Statement](./problem-statement.md) for the full threat landscape.*
+→ *See [Problem Statement](./problem-statement) for the full threat landscape.*
 
 ---
 
@@ -46,7 +46,7 @@ Web3 users lost over **$3.8 billion** to scams and exploits in 2022 alone. Exist
 
 SIFIX introduces a **5-step protection pipeline** — Intercept → Simulate → Analyze → Score → Act — that evaluates every transaction through AI-powered simulation before it's signed. The system never executes anything on behalf of the user; it only simulates and reports.
 
-→ *See [Solution](./solution.md) for the complete pipeline breakdown.*
+→ *See [Solution](./solution) for the complete pipeline breakdown.*
 
 ---
 
@@ -114,8 +114,8 @@ graph TB
 
 ## Next Steps
 
-- **[Problem Statement](./problem-statement.md)** — Understand the Web3 security crisis
-- **[Solution](./solution.md)** — How SIFIX's AI pipeline protects you
-- **[Tech Stack](./tech-stack.md)** — Full technology breakdown
+- **[Problem Statement](./problem-statement)** — Understand the Web3 security crisis
+- **[Solution](./solution)** — How SIFIX's AI pipeline protects you
+- **[Tech Stack](./tech-stack)** — Full technology breakdown
 - **[System Architecture](../architecture/system-overview)** — Deep dive into system design
 - **[Quick Start](../guides/quick-start)** — Install and run SIFIX in 5 minutes

@@ -5,6 +5,9 @@ description: Detailed breakdown of the SIFIX 6-step transaction analysis pipelin
 
 # Data Flow
 
+> **🎯 TL;DR**
+> Every time you're about to confirm a crypto transaction, SIFIX runs it through a **6-step safety checklist**: it catches the request, does a test run, checks its records for past warnings, asks an AI for analysis, saves the results permanently on a decentralized network, and learns from it for next time. Think of it like a **home inspection before you buy a house** — you want to know what you're getting into before signing on the dotted line.
+
 Every transaction the SIFIX extension intercepts follows a **six-step pipeline** that runs from browser interception through on-chain storage. This page documents each step in detail, including input/output types, data transformations, and the exact flow of information between components.
 
 ---
@@ -61,6 +64,8 @@ type InterceptedMethod =
 ---
 
 ## Step 1: INTERCEPT
+
+> **💡 Everyday analogy:** Think of this like a **mail room inspector reading the label on a package** before it leaves the building. The inspector doesn't open the package — they just note down where it's going, what kind of package it is, and who sent it, then flag it for further checks.
 
 The `tx-interceptor` content script runs in the **MAIN world** and replaces `window.ethereum.request()` with a JavaScript `Proxy` object. This happens **before any page scripts execute** — the script is injected at `webNavigation.onBeforeNavigate` with `injectImmediately: true`.
 
@@ -130,6 +135,8 @@ interface TransactionParams {
 ---
 
 ## Step 2: SIMULATE
+
+> **💡 Everyday analogy:** This is like a **fire drill**. Instead of a real fire, you simulate the emergency to see what would happen — who evacuates, which doors get jammed, how long it takes. In SIFIX's case, instead of sending a real transaction (which can't be undone), it runs a fake one to see if it would succeed, fail, or cause unexpected results.
 
 Transaction parameters are sent to `POST /api/v1/extension/analyze` on the dApp server. The dApp creates a `TransactionSimulator` which uses **viem's `publicClient.call()`** against the 0G Galileo RPC (`https://evmrpc-testnet.0g.ai`). This simulates the transaction against the current chain state **without broadcasting**.
 
@@ -215,6 +222,8 @@ interface SimulationResult {
 
 ## Step 3: THREAT INTEL
 
+> **💡 Everyday analogy:** Imagine you're a **bank teller checking a customer's history** before approving a large withdrawal. You look up whether this person has been involved in suspicious activity before, how many times they've been flagged, and what other branches have reported. SIFIX does the same thing by looking up an address's past scan history.
+
 The `PrismaThreatIntel.getAddressIntel()` implementation queries the `ScanHistory` table in SQLite for the **last 50 scans** involving the target address. This provides historical context that helps the AI produce more accurate risk assessments.
 
 **What threat intel provides:**
@@ -298,6 +307,8 @@ interface AddressThreatIntel {
 ---
 
 ## Step 4: AI ANALYZE
+
+> **💡 Everyday analogy:** This is like **bringing in a seasoned detective** to review all the evidence. You hand them the simulation results (the "crime scene photos") and the background check (the "criminal history"), and they give you their professional assessment: how risky is this, what are the specific threats, and what should you do about it.
 
 `AIAnalyzer.analyze()` constructs a structured prompt containing the simulation results and threat intelligence context. The prompt asks the AI to evaluate the transaction across multiple risk dimensions.
 
@@ -389,6 +400,8 @@ interface RiskAnalysis {
 
 ## Step 5: STORE
 
+> **💡 Everyday analogy:** Think of this as **filing the police report in a tamper-proof vault**. Once the detective finishes their analysis, the full report is sealed in a container that can't be edited or destroyed. Anyone can verify the report later by checking the vault's seal — but nobody can change what's inside.
+
 `StorageClient.storeAnalysis()` serializes the complete analysis result into JSON and uploads it to **0G Storage** via `@0gfoundation/0g-storage-ts-sdk`. The upload creates a Merkle tree, and the root hash is stored on-chain as a permanent, tamper-proof reference.
 
 **Storage properties:**
@@ -441,6 +454,8 @@ interface StorageReceipt {
 ---
 
 ## Step 6: LEARN
+
+> **💡 Everyday analogy:** This is like **adding the case to a detective's experience log**. Every solved case makes the detective sharper for the next one. Similarly, by saving the scan results, SIFIX ensures that the next time someone interacts with the same address, it has a richer history to draw from — making each subsequent analysis more informed.
 
 `ThreatIntelProvider.saveScanResult()` persists the complete scan result to the `ScanHistory` table in SQLite. This creates a **self-improving feedback loop** — on the next scan involving the same address, Step 3 will return richer context.
 

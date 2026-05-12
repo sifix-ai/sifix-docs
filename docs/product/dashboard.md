@@ -5,6 +5,8 @@ description: "SIFIX dApp dashboard — a Next.js 16 application with 12 pages fo
 
 # SIFIX Dashboard
 
+> **TL;DR** — A web app where you scan smart contracts, track threats, monitor your watchlist, and manage your AI security agent — all from one dark, glassmorphism-styled interface.
+
 The SIFIX Dashboard is the central command center for managing your Web3 security posture. Built with **Next.js 16**, it provides comprehensive tools for scanning, monitoring, and responding to threats across the Web3 ecosystem on **0G Galileo Testnet**.
 
 ---
@@ -74,6 +76,23 @@ All card and panel components use a consistent glass effect:
 ---
 
 ## Pages
+
+Below is a brief, plain-English description of each of the 12 dashboard pages:
+
+- **Overview** — Your security homepage at a glance: a score out of 100, active threat count, recent scans, and quick-action cards.
+- **Scanner** — The analysis workhorse. Paste a contract address, token, or domain and get a full security breakdown in seconds.
+- **Checker** — A pre-flight check for transactions. Paste raw calldata, simulate it on-chain, and see exactly what would happen *before* you sign.
+- **Threats** — A live feed of what's happening in Web3 right now: phishing campaigns, rug pulls, honeypots — filterable by severity.
+- **Reports** — Your library of past security reports. Search, filter, export to PDF, or verify on-chain evidence.
+- **Tags** — Color-coded labels you can slap on any address or contract (e.g. *suspicious*, *verified*, *personal*) for easy filtering later.
+- **Watchlist** — Proactive monitoring. Add addresses or domains and get alerts when risk scores change or new threats are detected.
+- **Analytics** — Charts and trends: how your security score has changed over time, what types of threats you see most, when attacks peak.
+- **Leaderboard** — Community rankings. See who's contributing the most scans, reports, and verifications.
+- **History** — A full audit trail of everything you've done in SIFIX — scans, tags, logins, extension connections — searchable and exportable.
+- **Settings** — Your profile, notification preferences, API keys, extension management, and network configuration.
+- **Agent** — Command center for the SIFIX AI Agent. Toggle it on/off, configure scan frequency, view its activity log, and switch to mock mode for testing.
+
+---
 
 ### 1. Overview
 
@@ -287,6 +306,6 @@ All authenticated requests include the JWT in the `Authorization` header.
 
 ## Related
 
-- [Chrome Extension](./extension.md) — Browser-based security companion
-- [AI Agent](./ai-agent.md) — The analysis engine behind the dashboard
-- [0G Integration](./0g-integration.md) — On-chain storage and compute infrastructure
+- [Chrome Extension](./extension) — Browser-based security companion
+- [AI Agent](./ai-agent) — The analysis engine behind the dashboard
+- [0G Integration](./0g-integration) — On-chain storage and compute infrastructure

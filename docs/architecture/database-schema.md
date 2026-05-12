@@ -5,6 +5,19 @@ description: Complete reference for all 13 Prisma models in the SIFIX SQLite dat
 
 # Database Schema
 
+> **🎯 TL;DR**
+> A database is like a **filing cabinet** — it's where SIFIX stores everything it learns so it can look it up later. This page describes every drawer, folder, and label in that cabinet. There are 13 types of records organized into three groups: security data (threat reports, scan results), community content (tags, watchlists), and system settings (user preferences, login sessions).
+
+## What Is a Database Schema?
+
+If you've ever used a spreadsheet, you already understand the basics of a database. A **schema** is simply the blueprint that describes what columns each spreadsheet (called a "table") has, what kind of data goes in each column, and how the spreadsheets relate to each other.
+
+For example, SIFIX has a table for **tracked addresses** (like a list of people the system has seen before) and a table for **threat reports** (complaints filed by the community about suspicious addresses). Each threat report is linked to an address — just like how a spreadsheet row might reference a customer ID from another sheet.
+
+SIFIX uses a lightweight database called **SQLite** (think of it as a single-file database — no complex server setup needed) and a tool called **Prisma** to interact with it in a type-safe way.
+
+---
+
 SIFIX uses **Prisma 5** with **SQLite** for its database layer. The schema consists of **13 models** organized into three domains: Core (security data), Community (user-generated content), and System (configuration and sessions).
 
 ---

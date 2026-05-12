@@ -5,7 +5,32 @@ description: Complete configuration reference for SIFIX — all 14 environment v
 
 # Configuration
 
+> **TL;DR** — Copy `.env.example` to `.env`, set your `AI_API_KEY` and `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`, and you're ready for local development. Everything else has sensible defaults.
+
 This guide covers every configuration option in the SIFIX platform. The dApp reads all settings from environment variables — there are **14 variables** controlling database connections, AI providers, 0G Storage, 0G Compute, network endpoints, and agentic identity.
+
+---
+
+## Quick Config — Minimum Viable `.env`
+
+To get started locally, you only need **three required values**:
+
+```bash
+# Minimum viable configuration for local development
+DATABASE_URL="file:./dev.db"
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID="your-walletconnect-id"
+AI_API_KEY="your-ai-api-key"
+
+# Everything below uses sensible defaults for local development:
+# NEXT_PUBLIC_ZG_RPC_URL → https://evmrpc-testnet.0g.ai
+# NEXT_PUBLIC_ZG_CHAIN_ID → 16602
+# AI_MODEL → glm/glm-5.1
+# STORAGE_MOCK_MODE → true (no funded wallet needed)
+# ZG_INDEXER_URL → https://indexer-storage-testnet-turbo.0g.ai
+# NEXT_PUBLIC_AGENTIC_ID_CONTRACT_ADDRESS → 0x2700F6A3e505402C9daB154C5c6ab9cAEC98EF1F
+```
+
+See the [full reference below](#environment-variables-reference) for all 14 variables and their options.
 
 ---
 
@@ -366,7 +391,7 @@ These values are set via `NEXT_PUBLIC_ZG_RPC_URL` and `NEXT_PUBLIC_ZG_CHAIN_ID`.
 
 ## Next Steps
 
-- **[Quick Start](./quick-start.md)** — Analyze your first transaction in 5 minutes
-- **[Installation](./installation.md)** — Full platform setup guide
-- **[Extension Setup](./extension-setup.md)** — Detailed Chrome extension configuration
-- **[Deployment](./deployment.md)** — Production deployment guide
+- **[Quick Start](./quick-start)** — Analyze your first transaction in 5 minutes
+- **[Installation](./installation)** — Full platform setup guide
+- **[Extension Setup](./extension-setup)** — Detailed Chrome extension configuration
+- **[Deployment](./deployment)** — Production deployment guide

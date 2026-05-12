@@ -627,6 +627,6 @@ All SDK modules connect to the **0G Galileo Testnet**:
 
 ## Related
 
-- [REST API](./rest-api.md) — The 35 HTTP endpoints powering the SIFIX dApp
-- [Extension API](./extension-api.md) — Chrome extension message API
-- [0G Storage API](./0g-storage-api.md) — Deep dive into 0G Storage integration
+- [REST API](./rest-api) — The 35 HTTP endpoints powering the SIFIX dApp
+- [Extension API](./extension-api) — Chrome extension message API
+- [0G Storage API](./0g-storage-api) — Deep dive into 0G Storage integration

@@ -799,6 +799,6 @@ type ExtensionResponse =
 
 ## Related
 
-- [@sifix/agent SDK](./agent-sdk.md) — The analysis engine powering extension verdicts
-- [REST API](./rest-api.md) — Backend endpoints called by the extension
-- [0G Storage API](./0g-storage-api.md) — Evidence storage for analysis results
+- [@sifix/agent SDK](./agent-sdk) — The analysis engine powering extension verdicts
+- [REST API](./rest-api) — Backend endpoints called by the extension
+- [0G Storage API](./0g-storage-api) — Evidence storage for analysis results

@@ -5,6 +5,29 @@ description: Full system architecture of SIFIX — how the Chrome extension, dAp
 
 # System Overview
 
+> **🎯 TL;DR**
+> SIFIX is like a **smart security guard for your crypto wallet**. When you're about to send a transaction on a blockchain app, SIFIX quietly steps in, tests what would happen if you sent it (without actually sending anything), asks an AI to check for danger signs, and then tells you whether it's safe to proceed. It runs as a Chrome browser extension, talks to a backend server for the heavy lifting, and stores its findings on a decentralized network so nobody can tamper with the results.
+
+## What Is SIFIX? (Plain-English Overview)
+
+If you've ever used a crypto wallet like MetaMask to interact with a blockchain app (a "dApp"), you know the feeling: you click a button, a popup asks you to confirm a transaction, and you have to trust that everything is fine. But what if the app is malicious? What if confirming that transaction drains your wallet?
+
+**SIFIX exists to answer that question before you confirm.**
+
+Here's how it works in everyday terms:
+
+1. **It watches your browser.** The SIFIX Chrome extension sits between you and the blockchain. When a website asks your wallet to do something, SIFIX catches that request first — like a bouncer checking IDs at the door.
+2. **It does a dry run.** Instead of sending the real transaction, SIFIX simulates it on the blockchain to see what would actually happen. Would money leave your account? Would a smart contract do something unexpected?
+3. **It asks an AI for a second opinion.** The simulation results are sent to an AI that's trained to spot red flags — things like phishing attempts, scam contracts, or suspicious token approvals.
+4. **It shows you the verdict.** You get a clear risk score (safe → critical) with a plain-English explanation, so you can make an informed decision.
+5. **It remembers.** Every scan is saved, so the system gets smarter over time. If an address has been flagged as dangerous before, you'll know immediately.
+
+SIFIX is built entirely on the **0G Galileo Testnet** (a blockchain test network) and consists of three pieces of software that work together: a browser extension, a web server, and a security analysis toolkit.
+
+---
+
+## Technical Architecture
+
 SIFIX is a three-tier AI-powered Web3 security platform built entirely on the **0G Galileo Testnet** (Chain ID: 16602). The system is composed of three independent repositories — **sifix-extension**, **sifix-dapp**, and **sifix-agent** — that form a cohesive pipeline for intercepting, simulating, analyzing, and storing blockchain transaction security data.
 
 ---

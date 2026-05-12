@@ -1099,6 +1099,6 @@ All 35 endpoints organized by domain:
 
 ## Related
 
-- [@sifix/agent SDK](./agent-sdk.md) — TypeScript SDK for programmatic access
-- [Extension API](./extension-api.md) — Chrome extension message API
-- [0G Storage API](./0g-storage-api.md) — 0G Storage integration details
+- [@sifix/agent SDK](./agent-sdk) — TypeScript SDK for programmatic access
+- [Extension API](./extension-api) — Chrome extension message API
+- [0G Storage API](./0g-storage-api) — 0G Storage integration details

@@ -5,19 +5,21 @@ description: Detailed guide to building, loading, and configuring the SIFIX Chro
 
 # Extension Setup
 
+> **TL;DR** — Clone `sifix-extension`, run `pnpm install && pnpm build`, then load `build/chrome-mv3-prod/` as an unpacked extension in Chrome via `chrome://extensions/`.
+
 The SIFIX Chrome Extension is the real-time protection layer that intercepts wallet transactions, scans domains, and delivers instant security verdicts. This guide covers building from source, loading into Chrome, understanding content script injection, and troubleshooting common issues.
 
 **Extension specs:** Plasmo 0.88 · Chrome Manifest V3 · 5 content scripts · 340×440 popup
 
 ---
 
-## Prerequisites
+## What You'll Need
 
-- **Node.js** ≥ 18
-- **pnpm** (or npm/yarn)
-- **Chrome** ≥ 116 (required for Manifest V3)
-- **MetaMask** installed and configured for **0G Galileo Testnet** (Chain ID: `16602`, RPC: `https://evmrpc-testnet.0g.ai`)
-- **SIFIX dApp** running (for full activation — see [Installation](./installation.md))
+- [ ] **Node.js** ≥ 18 installed
+- [ ] **pnpm** package manager (`npm install -g pnpm`)
+- [ ] **Chrome** ≥ 116 (required for Manifest V3)
+- [ ] **MetaMask** installed and configured for **0G Galileo Testnet** (Chain ID: `16602`, RPC: `https://evmrpc-testnet.0g.ai`)
+- [ ] **SIFIX dApp** running locally (for full activation — see [Installation](./installation))
 
 ---
 
@@ -381,7 +383,7 @@ cd sifix-dapp && pnpm dev
 
 ## Next Steps
 
-- **[Quick Start](./quick-start.md)** — Analyze your first transaction
-- **[Configuration](./configuration.md)** — Environment variables and AI provider setup
-- **[Deployment](./deployment.md)** — Deploy the full platform to production
-- **[Chrome Extension Product Docs](/product/extension.md)** — Detailed product-level documentation
+- **[Quick Start](./quick-start)** — Analyze your first transaction
+- **[Configuration](./configuration)** — Environment variables and AI provider setup
+- **[Deployment](./deployment)** — Deploy the full platform to production
+- **[Chrome Extension Product Docs](/product/extension)** — Detailed product-level documentation

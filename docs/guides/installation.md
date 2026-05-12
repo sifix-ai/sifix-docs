@@ -5,9 +5,11 @@ description: Complete installation guide for the SIFIX platform — clone all th
 
 # Installation
 
-This guide covers installing the **complete SIFIX platform** from source. You'll set up all three components — the agent SDK, the web dashboard, and the Chrome extension — and verify they work together on the **0G Galileo Testnet** (Chain ID: `16602`).
+> **⏱ Estimated time:** ~15 minutes
+>
+> **TL;DR** — Clone three repos (`sifix-agent`, `sifix-dapp`, `sifix-extension`), run `pnpm install && pnpm build` in each, configure `.env`, load the extension in Chrome, and verify the full pipeline on 0G Galileo Testnet.
 
-**Time to complete:** ~15 minutes
+This guide covers installing the **complete SIFIX platform** from source. You'll set up all three components — the agent SDK, the web dashboard, and the Chrome extension — and verify they work together on the **0G Galileo Testnet** (Chain ID: `16602`).
 
 ---
 
@@ -127,7 +129,7 @@ NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID="your-walletconnect-id"
 AI_API_KEY="your-ai-api-key"
 ```
 
-> See [Configuration](./configuration.md) for the complete list of 14 environment variables with descriptions and defaults.
+> See [Configuration](./configuration) for the complete list of 14 environment variables with descriptions and defaults.
 
 ### 3.3 Initialize the database
 
@@ -189,7 +191,7 @@ This runs `plasmo build` and outputs the production build to `build/chrome-mv3-p
 - The popup should display the **disconnected** state with a "Connect Wallet" button
 - If you see the popup, the extension loaded successfully
 
-> **Development mode:** For hot-reload during development, run `pnpm dev` and load from `build/chrome-mv3-dev/`. Source changes auto-reload the extension. See [Extension Setup](./extension-setup.md) for detailed instructions.
+> **Development mode:** For hot-reload during development, run `pnpm dev` and load from `build/chrome-mv3-dev/`. Source changes auto-reload the extension. See [Extension Setup](./extension-setup) for detailed instructions.
 
 ---
 
@@ -316,7 +318,7 @@ If errors persist, ensure Node.js ≥ 18 and pnpm are up to date.
 
 ## Next Steps
 
-- **[Configuration](./configuration.md)** — Complete environment variable reference and AI provider setup
-- **[Quick Start](./quick-start.md)** — 5-minute guide to analyzing your first transaction
-- **[Extension Setup](./extension-setup.md)** — Detailed extension build, load, and troubleshooting guide
-- **[Architecture](/architecture/)** — Deep dive into system design and data flow
+- **[Configuration](./configuration)** — Complete environment variable reference and AI provider setup
+- **[Quick Start](./quick-start)** — 5-minute guide to analyzing your first transaction
+- **[Extension Setup](./extension-setup)** — Detailed extension build, load, and troubleshooting guide
+- **[System Architecture](/architecture/system-overview)** — Deep dive into system design and data flow

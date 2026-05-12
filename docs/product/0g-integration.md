@@ -5,7 +5,21 @@ description: "Deep dive into SIFIX's integration with 0G services — Storage, C
 
 # 0G Integration
 
+> **TL;DR** — SIFIX runs entirely on 0G, a decentralized AI blockchain. It uses 0G Storage to keep tamper-proof evidence, 0G Compute to run AI analysis, and 0G EVM for smart contracts and authentication.
+
 SIFIX is built natively on the **0G (ZeroGravity) ecosystem**, leveraging three core services: **0G Storage** for immutable evidence, **0G Compute** for decentralized AI inference, and **0G EVM** for smart contract deployment and authentication. All services run on the **0G Galileo Testnet** (Chain ID: 16602).
+
+---
+
+## What is 0G?
+
+**0G (ZeroGravity)** is a decentralized AI blockchain purpose-built to handle the demands of AI applications on-chain. It provides three core primitives:
+
+- **0G Storage** — Decentralized, immutable data storage. Think of it as IPFS with built-in economic guarantees and verifiable integrity through root hashes. Data stored here cannot be altered or deleted.
+- **0G Compute** — Decentralized AI inference. Instead of sending your data to a centralized API (like OpenAI), you submit analysis tasks to a network of compute nodes that process them trustlessly.
+- **0G EVM** — A fully Ethereum-compatible execution environment. If you've deployed contracts on Ethereum or Polygon, you can deploy on 0G with zero code changes.
+
+All three services run on the **0G Galileo Testnet** (Chain ID: `16602`), which is the public testnet SIFIX currently uses. For the latest network status and documentation, visit [0G's official site](https://0g.ai).
 
 ---
 
@@ -239,7 +253,7 @@ SIFIX deploys the following contracts on 0G Galileo Testnet:
 **ERC-7857 Agentic Identity**
 - Address: `0x2700F6A3e505402C9daB154C5c6ab9cAEC98EF1F`
 - Purpose: On-chain identity for the SIFIX AI agent
-- See [Agentic Identity](./agentic-identity.md) for full details
+- See [Agentic Identity](./agentic-identity) for full details
 
 **SIWE Authentication Contract**
 - Purpose: Manages Sign-In with Ethereum sessions
@@ -356,7 +370,7 @@ All on-chain activity can be monitored through the 0G Galileo Testnet explorer:
 
 ## Related
 
-- [AI Agent](./ai-agent.md) — Uses all three 0G services in its pipeline
-- [Agentic Identity](./agentic-identity.md) — The on-chain identity deployed on 0G EVM
-- [Chrome Extension](./extension.md) — TX simulation via 0G EVM RPC
-- [Dashboard](./dashboard.md) — SIWE authentication and evidence viewing
+- [AI Agent](./ai-agent) — Uses all three 0G services in its pipeline
+- [Agentic Identity](./agentic-identity) — The on-chain identity deployed on 0G EVM
+- [Chrome Extension](./extension) — TX simulation via 0G EVM RPC
+- [Dashboard](./dashboard) — SIWE authentication and evidence viewing

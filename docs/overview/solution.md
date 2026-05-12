@@ -5,6 +5,9 @@ description: How SIFIX's 5-step AI protection pipeline intercepts, simulates, an
 
 # Solution
 
+> **⚡ TL;DR**
+> SIFIX runs a **5-step safety check** on every transaction before you sign it: Intercept → Simulate → Analyze → Score → Act. It takes under 3 seconds and works like a **fire drill** — we run through the entire transaction to see exactly what would happen, without actually executing it. Then an AI explains the risks in plain English and either greenlights the transaction or warns you about the danger.
+
 ## The SIFIX Protection Pipeline
 
 SIFIX protects users through a deterministic **5-step pipeline** that executes between the moment a user initiates a transaction and the moment they sign it. Every step runs locally or against a forked network — **no real transactions are ever executed during analysis**.
@@ -108,6 +111,8 @@ The interception is **non-invasive** — it reads the transaction without modify
 
 **Goal:** Execute the transaction in a sandboxed environment and extract all state changes.
 
+> 🔥 **Think of it like a fire drill.** Before a real emergency happens, you practice the evacuation route to see where everyone would go and what would happen — without any actual danger. SIFIX does the same with your transaction: it runs through the *entire* execution on a copy of the blockchain to see exactly what would change, which tokens would move, and where they'd go — without ever submitting the real transaction.
+
 SIFIX runs the captured transaction against a **forked 0G Galileo node** using `eth_call` and `trace` methods:
 
 - **Fork current state** — Create a snapshot of the blockchain state at the current block
@@ -157,6 +162,8 @@ The simulation output is passed to the AI analysis layer, which uses **0G Comput
 
 **Goal:** Synthesize all analysis into a single actionable risk score.
 
+> **Think of it like a credit score for transactions.** Just as a credit score condenses your financial history into a single number that tells a lender "safe" or "risky," SIFIX condenses dozens of security checks into a 0–100 score that tells you at a glance whether a transaction is safe to sign.
+
 Every transaction receives a **composite risk score from 0 to 100**, calculated from weighted risk factors identified during analysis:
 
 ### Risk Tiers
@@ -203,6 +210,8 @@ Based on the assigned risk tier, SIFIX takes proportionate action:
 
 SIFIX operates on a strict principle: **simulate, never execute.**
 
+> **Think of SIFIX as a safety inspector, not a driver.** A car inspector can tell you everything about a vehicle's condition — but they never drive it off the lot. Similarly, SIFIX reads and analyzes your transactions but has **zero ability** to move your money, sign anything, or act on your behalf.
+
 - ✅ **Does:** Read transaction payloads, simulate on forked state, analyze with AI, present risk reports
 - ❌ **Does NOT:** Hold private keys, submit transactions, modify wallet state, store sensitive data, require custody
 
@@ -228,4 +237,4 @@ All analysis data is stored locally in the extension's IndexedDB (via Dexie) and
 
 SIFIX's 5-step pipeline transforms the transaction signing experience from **blind trust** to **informed consent**. By combining on-chain simulation with multi-model AI analysis, it provides the semantic understanding that traditional wallets lack — without ever taking custody of user funds.
 
-→ **Next:** [Tech Stack](./tech-stack.md) — The technologies that power each step of the pipeline.
+→ **Next:** [Tech Stack](./tech-stack) — The technologies that power each step of the pipeline.

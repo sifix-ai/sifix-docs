@@ -1199,10 +1199,10 @@ function severityColor(severity: string): string {
 
 ## Related
 
-- **[Basic Analysis](./basic-analysis.md)** — Start with simple transaction analysis
-- **[AI Providers](./ai-providers.md)** — Configure AI backends
-- **[Storage](./storage.md)** — Store and retrieve analysis evidence
-- **[REST API](../api-reference/rest-api.md)** — Full Dashboard API reference (35 endpoints)
-- **[Extension API](../api-reference/extension-api.md)** — Chrome extension message protocol
-- **[Chrome Extension](../product/extension.md)** — Extension architecture and content scripts
-- **[Agent SDK](../api-reference/agent-sdk.md)** — Complete SDK reference
+- **[Basic Analysis](./basic-analysis)** — Start with simple transaction analysis
+- **[AI Providers](./ai-providers)** — Configure AI backends
+- **[Storage](./storage)** — Store and retrieve analysis evidence
+- **[REST API](../api-reference/rest-api)** — Full Dashboard API reference (35 endpoints)
+- **[Extension API](../api-reference/extension-api)** — Chrome extension message protocol
+- **[Chrome Extension](../product/extension)** — Extension architecture and content scripts
+- **[Agent SDK](../api-reference/agent-sdk)** — Complete SDK reference

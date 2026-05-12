@@ -5,6 +5,28 @@ description: Complete guide to SIFIX authentication — SIWE (Sign-In with Ether
 
 # Authentication Flow
 
+> **🎯 TL;DR**
+> Instead of typing a username and password, SIFIX lets you **prove you own your crypto wallet** by signing a message with it — like showing your ID card at the door. The server verifies your signature, gives you a temporary pass (a JWT token), and you use that pass for all future requests. Your actual wallet and private keys never leave your browser.
+
+## What Is SIWE (Sign-In with Ethereum)?
+
+**SIWE** stands for **Sign-In with Ethereum** — it's a standardized way to log into apps using your crypto wallet instead of a password. Here's the idea in plain English:
+
+Traditional login: You type an email and password → the server checks if they match → you're in.
+
+SIWE login: You connect your crypto wallet → the app gives you a unique message to sign → you sign it with your wallet (like MetaMask) → the server verifies the signature mathematically proves you own that wallet address → you're in.
+
+**Why is this better?**
+
+- **No password to steal.** Your wallet's private key never leaves your device — only a mathematical proof (signature) is sent.
+- **No account creation needed.** If you have a crypto wallet, you already have an account. There's nothing to sign up for.
+- **One identity everywhere.** Your wallet address is your universal login across all SIWE-compatible apps.
+- **Cryptographically secure.** The signature can't be forged — only someone with the private key (i.e., you) could have produced it.
+
+The technical standard that defines how this works is called **EIP-4361**. SIFIX follows this standard exactly, using the 0G Galileo blockchain (Chain ID: 16602) as the network.
+
+---
+
 SIFIX uses **Sign-In with Ethereum (SIWE)** for authentication across both the browser extension and the web dashboard. SIWE replaces traditional email/password authentication with cryptographic wallet signatures — users prove ownership of their Ethereum address by signing a structured EIP-4361 message.
 
 ---

@@ -535,6 +535,6 @@ if (result.storageRootHash) {
 
 ## Related
 
-- [@sifix/agent SDK](./agent-sdk.md) — StorageClient class reference
-- [REST API](./rest-api.md) — `GET /storage/:hash/download` endpoint
-- [Extension API](./extension-api.md) — How the extension stores analysis evidence
+- [@sifix/agent SDK](./agent-sdk) — StorageClient class reference
+- [REST API](./rest-api) — `GET /storage/:hash/download` endpoint
+- [Extension API](./extension-api) — How the extension stores analysis evidence

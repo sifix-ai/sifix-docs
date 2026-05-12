@@ -737,9 +737,9 @@ async function analyzeWithOptionalStorage(agent: SecurityAgent, tx: any) {
 
 ## Related
 
-- **[Basic Analysis](./basic-analysis.md)** — Analyze transactions before storing
-- **[AI Providers](./ai-providers.md)** — Configure AI backends for analysis
-- **[Advanced Patterns](./advanced.md)** — Batch operations and webhook integration
-- **[0G Integration](../product/0g-integration.md)** — Deep dive into 0G Storage architecture
+- **[Basic Analysis](./basic-analysis)** — Analyze transactions before storing
+- **[AI Providers](./ai-providers)** — Configure AI backends for analysis
+- **[Advanced Patterns](./advanced)** — Batch operations and webhook integration
+- **[0G Integration](../product/0g-integration)** — Deep dive into 0G Storage architecture
 - **[Agent SDK — StorageClient](../api-reference/agent-sdk.md#storageclient)** — Full API reference
-- **[0G Storage API](../api-reference/0g-storage-api.md)** — Low-level storage API reference
+- **[0G Storage API](../api-reference/0g-storage-api)** — Low-level storage API reference

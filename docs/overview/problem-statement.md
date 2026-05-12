@@ -143,4 +143,4 @@ The fundamental insight behind SIFIX is that **transaction security is a classif
 
 ---
 
-→ **Next:** [Solution](./solution.md) — How SIFIX's AI-powered pipeline solves each of these problems.
+→ **Next:** [Solution](./solution) — How SIFIX's AI-powered pipeline solves each of these problems.

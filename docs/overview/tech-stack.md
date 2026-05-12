@@ -5,6 +5,9 @@ description: Complete technology breakdown — why every tool in the SIFIX stack
 
 # Tech Stack
 
+> **⚡ TL;DR**
+> SIFIX is built with modern, battle-tested technologies across 3 repositories: a **Next.js** web dashboard, a **Chrome extension** for real-time wallet protection, and a **TypeScript SDK** for the core security engine. Everything runs on the **0G Galileo** blockchain, which provides built-in AI computing and data storage. Each technology was chosen for a specific reason — not because it's trendy, but because it's the right tool for the job.
+
 SIFIX is built as a modular system across three repositories, each with a focused technology stack optimized for its role in the security pipeline.
 
 ---
@@ -63,6 +66,8 @@ graph LR
 
 The SIFIX dashboard is the primary interface for transaction history, risk reports, portfolio security insights, and account management.
 
+> **Why this matters:** The dashboard is where users review their security history and manage settings. It needs to be fast (risk reports load instantly), accessible (works on any device), and capable of displaying complex data (multi-layered transaction breakdowns) in a way that's easy to understand.
+
 - **Next.js 16** — App Router with Server Components
 - **React 19** — Latest concurrent features for responsive UI
 - **Tailwind CSS** — Utility-first styling with custom SIFIX theme
@@ -98,6 +103,8 @@ The custom SIFIX theme maps directly to risk tiers: `risk-safe` (green), `risk-l
 ## Browser Extension — sifix-extension
 
 The Chrome extension is the real-time protection layer, intercepting transactions at the wallet interface.
+
+> **Why this matters:** This is the "front line" of SIFIX's protection. The extension sits inside your browser and watches every transaction you're about to sign — like a security guard standing at the door of your wallet. If it detects something dangerous, it stops you before you can sign.
 
 - **Plasmo 0.88** — The framework for building Chrome extensions with React
 - **Chrome Manifest V3** — Google's latest extension standard, required for Chrome Web Store
@@ -136,6 +143,8 @@ IndexedDB is the only persistent storage available to Chrome extensions, but its
 
 The SDK is the heart of SIFIX — the simulation engine, AI routing, and risk scoring logic.
 
+> **Why this matters:** The SDK is the "brain" of SIFIX. It takes a raw transaction, runs a simulation, sends the results to AI models for analysis, and produces a risk score. Every other part of the system (dashboard, extension) relies on this core engine to do the actual security work.
+
 - **TypeScript** — Full type safety across the entire pipeline
 - **viem** — Modern TypeScript library for Ethereum interactions
 - **OpenAI SDK** — AI model communication with structured output parsing
@@ -171,6 +180,8 @@ The OpenAI SDK is used as the primary client for **all** AI providers — not ju
 
 SIFIX is built natively on the **0G Galileo Testnet** — not deployed as a generic EVM dApp.
 
+> **Why this matters:** Most blockchains only process transactions. 0G is different — it has AI computing built directly into the network. This means SIFIX can run its AI analysis *on the blockchain itself* rather than relying entirely on external servers, making the results more trustworthy and harder to tamper with. It's like having a built-in security lab instead of shipping samples to an outside lab.
+
 - **0G Galileo Testnet** — Chain ID `16602`
 - **0G Storage** — Data availability layer for simulation reports and risk data
 - **0G Compute** — On-chain AI inference (primary analysis engine)
@@ -198,6 +209,8 @@ SIFIX is built natively on the **0G Galileo Testnet** — not deployed as a gene
 ## AI Layer
 
 SIFIX uses a **tiered AI architecture** with intelligent model routing:
+
+> **Why this matters:** Different transactions need different levels of scrutiny. A simple token transfer can be checked in milliseconds by a fast, lightweight model. A complex DeFi swap involving multiple contracts needs a more powerful model that can reason through the entire execution path. SIFIX automatically picks the right AI for each job — like routing a simple question to a receptionist and a complex diagnosis to a specialist.
 
 - **0G Compute** — Primary inference engine for on-chain analysis
 - **OpenAI** (GPT-4 class) — Deep reasoning fallback for complex patterns
@@ -227,6 +240,8 @@ The SDK's AI router automatically selects the optimal model based on:
 - **Prisma** — Type-safe ORM with migration support
 - **SQLite** — Lightweight, serverless, embedded database
 
+> **Why this matters:** SIFIX needs to store transaction history and risk reports, but it doesn't need a heavy database server. SQLite is embedded directly in the application — zero setup, zero maintenance. Combined with Prisma (which ensures data integrity at the code level), it keeps the system simple, reliable, and easy to deploy anywhere.
+
 ### Why Prisma + SQLite?
 
 The SIFIX dApp needs structured storage for transaction history, user preferences, risk reports, and analysis metadata — but it doesn't need a separate database server:
@@ -241,6 +256,8 @@ The SIFIX dApp needs structured storage for transaction history, user preference
 ## Authentication
 
 - **SIWE (Sign-In with Ethereum)** — Wallet-based authentication
+
+> **Why this matters:** In Web3, your wallet *is* your identity. SIWE lets users log in by simply signing a message with their crypto wallet — no passwords, no email, no personal data collected. It's like showing your ID at the door instead of filling out a registration form.
 
 ### Why SIWE?
 
@@ -284,4 +301,4 @@ sifix-agent/ (SDK)
 
 ---
 
-→ **Next:** [Architecture](../architecture/) — How these technologies connect in the system design.
+→ **Next:** [System Architecture](../architecture/system-overview) — How these technologies connect in the system design.

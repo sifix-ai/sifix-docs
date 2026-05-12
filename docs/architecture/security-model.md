@@ -5,6 +5,24 @@ description: Comprehensive security architecture of SIFIX — extension isolatio
 
 # Security Model
 
+> **🎯 TL;DR**
+> SIFIX is a security tool, so it needs to be secure itself. This page explains how SIFIX protects every layer — from the browser extension to the server to the blockchain. Think of it as the **blueprints for a bank vault**: every door, every lock, and every camera is documented here, along with what it can and can't protect against.
+
+## Why Security Matters in Web3
+
+In traditional web applications, if something goes wrong — an unauthorized charge, a hacked account — there's usually a customer support team, a bank, or a legal system that can help you recover your funds. **Web3 is different.** Blockchain transactions are **irreversible by design**. Once you confirm a transaction, there is no "undo" button, no customer service hotline, and often no legal recourse.
+
+This creates a uniquely high-stakes environment:
+
+- **One click can drain your entire wallet.** A malicious "approve" transaction can give a scammer unlimited access to your tokens.
+- **Scams are sophisticated.** Modern phishing sites look identical to real dApps — even experienced users get tricked.
+- **No safety net.** Unlike a credit card dispute, stolen crypto is gone for good.
+- **Anyone can create a smart contract.** There's no app store review process. Malicious contracts go live instantly.
+
+SIFIX exists because **prevention is the only defense** in Web3. If a transaction looks dangerous, SIFIX warns you *before* you sign it — when it still matters. But for SIFIX's warnings to be trustworthy, SIFIX itself must be built with the highest security standards. This document explains how.
+
+---
+
 SIFIX is a security product, and its own security architecture is paramount. This document covers how SIFIX protects each layer — from the browser extension's content script isolation to the agent SDK's simulation sandbox, smart contract access controls, and privacy guarantees.
 
 ---

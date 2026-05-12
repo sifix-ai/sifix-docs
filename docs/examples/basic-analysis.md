@@ -547,8 +547,8 @@ explanations.forEach((line) => console.log(line));
 
 ## Related
 
-- **[AI Providers](./ai-providers.md)** — Configure different AI backends for analysis
-- **[Storage](./storage.md)** — Store and retrieve analysis results on 0G Storage
-- **[Advanced Patterns](./advanced.md)** — Batch analysis, webhooks, and custom providers
-- **[Quick Start](../guides/quick-start.md)** — Full setup walkthrough
-- **[Agent SDK](../api-reference/agent-sdk.md)** — Complete API reference
+- **[AI Providers](./ai-providers)** — Configure different AI backends for analysis
+- **[Storage](./storage)** — Store and retrieve analysis results on 0G Storage
+- **[Advanced Patterns](./advanced)** — Batch analysis, webhooks, and custom providers
+- **[Quick Start](../guides/quick-start)** — Full setup walkthrough
+- **[Agent SDK](../api-reference/agent-sdk)** — Complete API reference
