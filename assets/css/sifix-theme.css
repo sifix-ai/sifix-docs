@@ -31,3 +31,15 @@ pre { border: 1px solid var(--border-color); border-radius: 12px; }
 
 .hero-badges a, .hero-badges img { display: inline-block !important; }
 .hero-badges img { vertical-align: middle; }
+
+/* global readability polish */
+.main-content { line-height: 1.72; }
+.main-content h1, .main-content h2, .main-content h3 { scroll-margin-top: 90px; }
+.main-content table { width: 100%; border-collapse: collapse; display: table; }
+.main-content th, .main-content td { border: 1px solid var(--border-color); padding: 10px 12px; vertical-align: top; }
+.main-content th { background: rgba(59,158,255,.08); font-weight: 600; }
+.main-content blockquote { border-left: 3px solid #3b9eff; background: rgba(59,158,255,.06); padding: 10px 14px; border-radius: 8px; }
+.main-content hr { border-color: var(--border-color); }
+.intro-hero { text-align: center; }
+.intro-hero h1 { text-align: center; }
+.intro-hero .hero-badges { justify-content: center !important; }
