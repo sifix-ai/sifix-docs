@@ -228,7 +228,39 @@ const data = await response.json();
 
 ## Threats
 
+### `POST /threats/:id/relay`
+
+Relay an existing threat report to onchain contract flow. Protected endpoint.
+
+**Headers:**
+- `Authorization: Bearer <CRON_SECRET>`
+
+**Path Parameters:**
+- `id` **`string`** — Threat report ID
+
+**Response fields (key):**
+- `localStatus` (`QUEUED`/`SYNCED`/`RELAY_FAILED`)
+- `onchainStatus` (`NONE`/`SUBMITTED`)
+- `onchainTxHash`
+- `relayAttempts`
+- `nextRelayAt`
+
+---
+
+### `POST /threats/:id/vote/relay`
+
+Relay latest community vote for a threat to onchain contract flow. Protected endpoint.
+
+**Headers:**
+- `Authorization: Bearer <CRON_SECRET>`
+
+**Path Parameters:**
+- `id` **`string`** — Threat report ID
+
+---
+
 ### `GET /threats`
+
 
 Retrieve a paginated list of known threats.
 

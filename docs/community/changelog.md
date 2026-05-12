@@ -9,7 +9,35 @@ All notable changes to SIFIX are documented here. Versions follow [Semantic Vers
 
 ---
 
-## v1.5.0 — Current Release
+## v1.6.0 — Current Release
+
+**Release Date:** 2026 Q2  
+**Focus:** onchain relay pipeline, indexer reconciliation, and resilient sync lifecycle
+
+### Features
+
+- **Onchain Relay Pipeline** — Added relay endpoints for threat reports and community votes:
+  - `POST /api/v1/threats/[id]/relay`
+  - `POST /api/v1/threats/[id]/vote/relay`
+- **Indexer Reconcile Bridge** — Added internal endpoint for indexed event ingestion:
+  - `POST /api/internal/reconcile/onchain`
+- **Dual-Status Threat Lifecycle** — Threat reports now track local and onchain state separately (`localStatus`, `onchainStatus`) for better observability and retries.
+- **Ponder Indexer Repository** — New `sifix-indexer` service indexes `ScamVoteSubmitted` events on 0G Galileo and pushes normalized batches for reconciliation.
+
+### Improvements
+
+- **Chain-aware Validation** — Address scan flow now supports stricter chain-aware existence checks.
+- **Retry Scheduling for Relay Failures** — Added relay retry counters and next-attempt scheduling to reduce permanent sync failures.
+- **Live Guard Status in Dashboard** — Replaced dummy status with live online/degraded/offline probing.
+
+### Bug Fixes
+
+- Fixed mismatch between local report state and onchain submission visibility by introducing reconcile sync pipeline.
+- Fixed inconsistent status semantics by separating user-facing moderation status from sync status fields.
+
+---
+
+## v1.5.0 — Previous Release
 
 **Release Date:** 2025 Q1  
 **Focus:** 0G Compute integration, historical threat intelligence, multi-model AI, and batch analysis
