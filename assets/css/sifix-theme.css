@@ -1,0 +1,30 @@
+:root,
+:root[data-theme="dark"] {
+  --bg-color: #06070a;
+  --text-color: #e5e7eb;
+  --text-muted: #9ca3af;
+  --text-heading: #f3f4f6;
+  --link-color: #3b9eff;
+  --link-color-hover: #66b3ff;
+  --border-color: #1f2937;
+  --header-bg: rgba(6, 7, 10, 0.9);
+  --header-border: #1f2937;
+  --sidebar-bg: #07090d;
+  --sidebar-text: #9ca3af;
+  --sidebar-link-active-bg: rgba(59, 158, 255, 0.14);
+  --sidebar-link-active-text: #3b9eff;
+  --code-bg: #0b0f17;
+  --code-text: #e5e7eb;
+}
+
+:root {
+  --font-family-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Geist Mono", "SF Mono", Consolas, monospace;
+}
+
+h1,h2,h3,h4,h5,h6 { letter-spacing: -0.02em; }
+h1 { font-weight: 700; }
+.site-header { border-bottom: 1px solid var(--header-border); backdrop-filter: blur(10px); }
+.sidebar { border-right: 1px solid var(--border-color); }
+pre { border: 1px solid var(--border-color); border-radius: 12px; }
+:not(pre) > code { background: rgba(59,158,255,.1); border: 1px solid rgba(59,158,255,.2); border-radius: 6px; padding: 2px 6px; }
