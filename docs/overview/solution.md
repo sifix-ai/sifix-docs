@@ -10,13 +10,18 @@ description: How SIFIX's 5-step AI protection pipeline intercepts, simulates, an
 
 ## The SIFIX Protection Pipeline
 
-SIFIX protects users through a deterministic **5-step pipeline** that executes between the moment a user initiates a transaction and the moment they sign it. Every step runs locally or against a forked network — **no real transactions are ever executed during analysis**.
+SIFIX adds one safety layer before signature.
 
 ```
 Intercept → Simulate → Analyze → Score → Act
 ```
 
-The entire pipeline completes in **under 3 seconds** for standard transactions and **under 8 seconds** for complex multi-call DeFi operations.
+What this means for non-technical users:
+- You get explanation before sign, not after loss.
+- You see risk level in plain words.
+- You stay in control of final decision.
+
+No real transaction is executed during analysis. Simulation is read-only.
 
 ---
 

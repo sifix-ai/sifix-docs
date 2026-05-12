@@ -10,17 +10,55 @@ description: The Web3 security crisis — why $3.8 billion was lost in 2022 and 
 
 ## The Web3 Security Crisis
 
-Web3 was designed to give users financial sovereignty — but sovereignty without security is a liability. Every year, billions of dollars are drained from wallets through attacks that exploit the fundamental opacity of blockchain transactions. Users sign payloads they don't understand, interact with contracts they can't audit, and trust interfaces that can be spoofed in seconds.
+Web3 gives users full control. But full control without clear safety signals becomes high risk.
 
-The numbers tell the story:
+Today, many users still sign transactions they cannot read. Attackers exploit this with fake interfaces, hidden approvals, and malicious contracts that look normal on first glance.
 
-- **$3.8 billion** lost to crypto scams and exploits in 2022 (Chainalysis)
-- **$1.7 billion** stolen in 2023 across 60+ major hacks (DeFiLlama)
-- **303 million** malicious transactions detected by leading security firms in 2023
-- **67%** of crypto investors have experienced at least one security incident
-- Average loss per phishing victim: **$7,000+**
+Quick reality check:
+- **$3.8B** lost to scams/exploits in 2022
+- **$1.7B** stolen in 2023 across major hacks
+- Average phishing victim loss often reaches **thousands of USD**
 
-This isn't a user education problem — it's an **infrastructure problem**. The tools don't exist at the wallet layer to give users meaningful, real-time protection.
+Core issue: this is not only user error. This is a product/infrastructure gap. Wallet UX still lacks clear pre-sign explanation for non-technical users.
+
+SIFIX is built to close that gap.
+
+---
+
+## Problem in one sentence
+
+Users are asked to approve complex blockchain actions with low context and high consequences.
+
+---
+
+## Common attack patterns (plain language)
+
+- **Phishing pages** — fake dApp UI tricks user into signing harmful action.
+- **Unlimited approvals** — user gives token spending rights without realizing scope.
+- **Malicious contracts** — contract looks normal, hidden logic drains funds.
+- **Rug pulls** — project appears legit, then removes liquidity or changes rules.
+- **Dust/poisoning** — tiny fake transfers manipulate user behavior/history.
+
+---
+
+## Why standard wallet warnings are not enough
+
+- Mostly technical prompts (hex/calldata) instead of human explanation.
+- Mostly reactive signals (after incident) instead of preventive signals (before sign).
+- Mostly static blocklists, weak against new/zero-day attacks.
+- No strong intent-level explanation: "what this tx really does to your funds".
+
+---
+
+## What users actually need
+
+Before clicking approve, users need:
+1. Simple explanation of outcome
+2. Clear risk level
+3. Concrete reason for that risk
+4. Recommendation (continue or stop)
+
+That is exactly the design target for SIFIX.
 
 ---
 
