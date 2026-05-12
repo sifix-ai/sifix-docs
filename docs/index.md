@@ -55,7 +55,7 @@ Instead of warning users after funds are gone, SIFIX checks risk **before signat
 - caution and review,
 - high risk, stop now.
 
-It also keeps verifiable evidence (relay/indexer/reconcile pipeline) so security signals are transparent and auditable.
+It also keeps verifiable evidence through a user-published onchain flow (wallet tx -> indexer -> reconcile), so security signals stay transparent and auditable.
 
 ---
 

@@ -10,6 +10,24 @@ description: Detailed breakdown of the SIFIX 6-step transaction analysis pipelin
 
 Every transaction the SIFIX extension intercepts follows a **six-step pipeline** that runs from browser interception through on-chain storage. This page documents each step in detail, including input/output types, data transformations, and the exact flow of information between components.
 
+## Onchain publish model (current)
+
+SIFIX uses **user-published transactions** for threat/vote records:
+
+1. dApp prepares publish payload.
+2. User wallet signs and sends transaction (user pays 0G gas).
+3. Contract emits event on 0G Galileo.
+4. Indexer captures event.
+5. Reconcile endpoint updates local status to `SYNCED_ONCHAIN`.
+
+Status lifecycle:
+- `DRAFT_LOCAL` -> `PUBLISHING` -> `SYNCED_ONCHAIN`
+- failure path: `PUBLISH_FAILED`
+
+---
+
+> Legacy relay endpoints remain optional and are not default production flow.
+
 ---
 
 ## Pipeline Overview

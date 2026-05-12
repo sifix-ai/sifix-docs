@@ -228,36 +228,38 @@ const data = await response.json();
 
 ## Threats
 
-### `POST /threats/:id/relay`
+### `POST /threats/:id/publish`
 
-Relay an existing threat report to onchain contract flow. Protected endpoint.
+Prepare onchain publish payload for a threat report. User signs and sends transaction from wallet (user pays gas). Authenticated endpoint.
 
 **Headers:**
-- `Authorization: Bearer <CRON_SECRET>`
+- `Authorization: Bearer <JWT>`
 
 **Path Parameters:**
 - `id` **`string`** — Threat report ID
 
 **Response fields (key):**
-- `localStatus` (`QUEUED`/`SYNCED`/`RELAY_FAILED`)
-- `onchainStatus` (`NONE`/`SUBMITTED`)
-- `onchainTxHash`
-- `relayAttempts`
-- `nextRelayAt`
+- `localStatus` (`DRAFT_LOCAL`/`PUBLISHING`/`SYNCED_ONCHAIN`/`PUBLISH_FAILED`)
+- `onchainStatus` (`NONE`/`SUBMITTED`/`CONFIRMED`)
+- `txRequest` (contract call data for wallet)
 
 ---
 
-### `POST /threats/:id/vote/relay`
+### `POST /threats/:id/vote/publish`
 
-Relay latest community vote for a threat to onchain contract flow. Protected endpoint.
+Prepare onchain vote publish payload. User signs/sends from wallet. Authenticated endpoint.
 
 **Headers:**
-- `Authorization: Bearer <CRON_SECRET>`
+- `Authorization: Bearer <JWT>`
 
 **Path Parameters:**
 - `id` **`string`** — Threat report ID
 
 ---
+
+### Legacy relay endpoints
+
+`/threats/:id/relay` and `/threats/:id/vote/relay` are legacy sponsor-gas paths. Default production flow uses user-published transactions.
 
 ### `GET /threats`
 
