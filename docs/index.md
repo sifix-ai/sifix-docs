@@ -1,89 +1,95 @@
 ---
 title: SIFIX Docs
-description: AI-Powered Wallet Security for Web3 on 0G Galileo
+description: AI-Powered Wallet Security for Web3
 ---
 
-# SIFIX
+<div align="center">
 
-AI-powered wallet security layer for Web3.
+# 🛡️ SIFIX
 
-SIFIX built because wallet UX today still blind: users sign transactions they don’t fully understand, attackers exploit that gap, losses keep happening. SIFIX puts analysis before signature.
+**AI-Powered Wallet Security for Web3**
 
-## Why this project exists
+*Every 14 seconds, a Web3 user falls victim to a scam. SIFIX stops it before it happens.*
 
-Web3 users face recurring threats:
-- Phishing domains and fake dApps
-- Malicious token approvals
-- Contract interactions that look normal but drain funds
-- Social trust issues: reports exist, verification weak
+<p class="hero-badges" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0 0;">
+  <a href="https://chainscan-galileo.0g.ai"><img src="https://img.shields.io/badge/Network-0G%20Galileo-3b9eff?style=flat-square" alt="0G Galileo" /></a>
+  <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/Language-TypeScript-3178c6?style=flat-square" alt="TypeScript" /></a>
+  <a href="https://github.com/sifix-ai/sifix-agent"><img src="https://img.shields.io/badge/SDK-v1.5.0-22c55e?style=flat-square" alt="SDK v1.5.0" /></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-a855f7?style=flat-square" alt="MIT License" /></a>
+</p>
 
-Traditional wallets execute request. SIFIX evaluates risk first.
+</div>
 
-## What SIFIX does
+---
 
-SIFIX combines 4 parts:
-- **sifix-extension**: intercept + warn in browser
-- **sifix-dapp**: dashboard + API + moderation workflows
-- **sifix-agent**: AI analysis SDK
-- **sifix-indexer**: onchain event indexer (Ponder)
+## Why SIFIX exists
 
-Network baseline: **0G Galileo Testnet (Chain ID 16602)**.
+Web3 security still has one core problem: users sign transactions they do not fully understand. Attackers exploit that gap with phishing domains, malicious approvals, and deceptive contract calls.
 
-## How it works (end-to-end)
+SIFIX exists to move security **before signature**, not after loss.
 
-1. User triggers interaction (address/domain/tx)
-2. Extension or dApp sends request to analysis pipeline
-3. Agent simulates + scores risk + generates explanation
-4. Threat report created in local DB with safe default state (`PENDING`)
-5. Relay submits verified payload to onchain contract flow
-6. Indexer captures `ScamVoteSubmitted` events
-7. Reconcile endpoint syncs onchain truth back to dApp status
+## What SIFIX is
 
-Result: user-facing status + onchain evidence stay aligned.
+SIFIX is a security system made of four connected repos:
 
-## Status model
+- `sifix-extension` — browser interception and warning layer
+- `sifix-dapp` — dashboard, API, moderation, sync status
+- `sifix-agent` — AI simulation and risk analysis SDK
+- `sifix-indexer` — Ponder indexer for onchain event truth
 
-Threat lifecycle split into two planes:
+Baseline network: **0G Galileo Testnet (Chain ID 16602)**.
 
-- Moderation plane:
-  - `status`: `PENDING | VERIFIED | DISMISSED`
-- Sync plane:
-  - `localStatus`: `PENDING_LOCAL | QUEUED | SYNCED | RELAY_FAILED`
-  - `onchainStatus`: `NONE | SUBMITTED`
+## How SIFIX works
 
-This split prevents false “verified” assumptions and improves retry observability.
+```mermaid
+flowchart LR
+  U[User interaction] --> A[Scan / Analyze]
+  A --> R[Create threat report<br/>status=PENDING]
+  R --> L[Relay to onchain]
+  L --> E[ScamVoteSubmitted event]
+  E --> I[Ponder indexer]
+  I --> C[Reconcile endpoint]
+  C --> D[Dashboard/API synced status]
+```
 
-## Impact
+### Sync lifecycle
 
-SIFIX target impact:
-- Reduce blind-sign incidents by pre-sign risk warnings
-- Improve trust via transparent report/vote flow
-- Preserve tamper-resistance via onchain event evidence
-- Give operators actionable sync telemetry (queued, failed, synced)
+```mermaid
+stateDiagram-v2
+  [*] --> PENDING_LOCAL
+  PENDING_LOCAL --> QUEUED: relay requested
+  QUEUED --> SYNCED: tx + event reconciled
+  QUEUED --> RELAY_FAILED: tx failed/timeout
+  RELAY_FAILED --> QUEUED: retry scheduler
+
+  state "Onchain" as O {
+    [*] --> NONE
+    NONE --> SUBMITTED
+  }
+```
+
+## Why this matters (impact)
+
+- Reduces blind-sign incidents with pre-sign warnings
+- Gives transparent moderation flow (`PENDING`, vote, override)
+- Keeps sync observability clear (`QUEUED`, `SYNCED`, `RELAY_FAILED`)
+- Anchors evidence with onchain events, not UI assumptions only
 
 ## Current progress (May 2026)
 
-- Chain-aware scan hardening added
-- Live guard status probes in dashboard
+- Chain-aware scan validation hardened
+- Live guard probes added to dashboard status
 - Relay endpoints added:
   - `POST /api/v1/threats/[id]/relay`
   - `POST /api/v1/threats/[id]/vote/relay`
 - Reconcile endpoint added:
   - `POST /api/internal/reconcile/onchain`
-- New `sifix-indexer` (Ponder) scaffolded and connected for reconcile push flow
+- `sifix-indexer` scaffolded with Ponder + reconcile push script
 
-## Start here
+## Start from here
 
-- Product overview: [Introduction](./overview/introduction)
+- Product intro: [Introduction](./overview/introduction)
 - API integration: [REST API](./api-reference/rest-api)
 - SDK usage: [@sifix/agent SDK](./api-reference/agent-sdk)
-- Deployment: [Guides](./guides/installation)
-- System internals: [Architecture](./architecture/system-overview)
-
-## Repositories
-
-- `sifix-agent` — https://github.com/sifix-ai/sifix-agent
-- `sifix-dapp` — https://github.com/sifix-ai/sifix-dapp
-- `sifix-extension` — https://github.com/sifix-ai/sifix-extension
-- `sifix-indexer` — https://github.com/sifix-ai/sifix-indexer
-- `sifix-docs` — https://github.com/sifix-ai/sifix-docs
+- Setup: [Installation Guide](./guides/installation)
+- Deep internals: [System Overview](./architecture/system-overview)
