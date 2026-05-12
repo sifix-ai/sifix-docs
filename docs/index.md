@@ -1,155 +1,89 @@
 ---
 title: SIFIX Docs
-description: AI-Powered Wallet Security for Web3
+description: AI-Powered Wallet Security for Web3 on 0G Galileo
 ---
 
-<div align="center">
+# SIFIX
 
-# 🛡️ SIFIX
+AI-powered wallet security layer for Web3.
 
-**AI-Powered Wallet Security for Web3**
+SIFIX built because wallet UX today still blind: users sign transactions they don’t fully understand, attackers exploit that gap, losses keep happening. SIFIX puts analysis before signature.
 
-*Every 14 seconds, a Web3 user falls victim to a scam. SIFIX stops it before it happens.*
+## Why this project exists
 
-<p class="hero-badges" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0 0;">
-  <a href="https://chainscan-galileo.0g.ai"><img src="https://img.shields.io/badge/Network-0G%20Galileo-3b9eff?style=flat-square" alt="0G Galileo" /></a>
-  <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/Language-TypeScript-3178c6?style=flat-square" alt="TypeScript" /></a>
-  <a href="https://github.com/sifix-ai/sifix-agent"><img src="https://img.shields.io/badge/SDK-v1.5.0-22c55e?style=flat-square" alt="SDK v1.5.0" /></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-a855f7?style=flat-square" alt="MIT License" /></a>
-</p>
+Web3 users face recurring threats:
+- Phishing domains and fake dApps
+- Malicious token approvals
+- Contract interactions that look normal but drain funds
+- Social trust issues: reports exist, verification weak
 
-</div>
+Traditional wallets execute request. SIFIX evaluates risk first.
 
----
+## What SIFIX does
 
-## The Problem
+SIFIX combines 4 parts:
+- **sifix-extension**: intercept + warn in browser
+- **sifix-dapp**: dashboard + API + moderation workflows
+- **sifix-agent**: AI analysis SDK
+- **sifix-indexer**: onchain event indexer (Ponder)
 
-Web3 was supposed to set us free. Instead, it created a $9 billion problem.
+Network baseline: **0G Galileo Testnet (Chain ID 16602)**.
 
-In 2024 alone, users lost **$9 billion** to phishing attacks, rug pulls, and malicious smart contracts. Traditional wallets are blind — they sign whatever you ask them to, with no understanding of *what* they're signing or *why* it might be dangerous.
+## How it works (end-to-end)
 
-The result? A broken trust model where one wrong click can wipe out a lifetime of savings.
+1. User triggers interaction (address/domain/tx)
+2. Extension or dApp sends request to analysis pipeline
+3. Agent simulates + scores risk + generates explanation
+4. Threat report created in local DB with safe default state (`PENDING`)
+5. Relay submits verified payload to onchain contract flow
+6. Indexer captures `ScamVoteSubmitted` events
+7. Reconcile endpoint syncs onchain truth back to dApp status
 
-**We built SIFIX to fix this.**
+Result: user-facing status + onchain evidence stay aligned.
 
-## Meet SIFIX
+## Status model
 
-SIFIX is an **autonomous AI security agent** that sits between you and the blockchain. Before any transaction reaches the network, SIFIX:
+Threat lifecycle split into two planes:
 
-1. **Intercepts** the transaction from your wallet
-2. **Simulates** it in a safe sandbox environment
-3. **Analyzes** the risk using AI-powered intelligence
-4. **Scores** the transaction on a clear 0–100 risk scale
-5. **Stores** cryptographic evidence on-chain for accountability
+- Moderation plane:
+  - `status`: `PENDING | VERIFIED | DISMISSED`
+- Sync plane:
+  - `localStatus`: `PENDING_LOCAL | QUEUED | SYNCED | RELAY_FAILED`
+  - `onchainStatus`: `NONE | SUBMITTED`
 
-Think of it as a **real-time security checkpoint** for every Web3 transaction — powered by AI, backed by immutable on-chain proof.
+This split prevents false “verified” assumptions and improves retry observability.
 
-> 💡 **Non-technical?** Here's the simple version: SIFIX is like having a security expert look over your shoulder every time you click "Approve" in your wallet, warning you *before* you do something dangerous — and keeping a tamper-proof record of every analysis.
+## Impact
 
----
+SIFIX target impact:
+- Reduce blind-sign incidents by pre-sign risk warnings
+- Improve trust via transparent report/vote flow
+- Preserve tamper-resistance via onchain event evidence
+- Give operators actionable sync telemetry (queued, failed, synced)
 
-## Documentation
+## Current progress (May 2026)
 
-### 📖 Overview
+- Chain-aware scan hardening added
+- Live guard status probes in dashboard
+- Relay endpoints added:
+  - `POST /api/v1/threats/[id]/relay`
+  - `POST /api/v1/threats/[id]/vote/relay`
+- Reconcile endpoint added:
+  - `POST /api/internal/reconcile/onchain`
+- New `sifix-indexer` (Ponder) scaffolded and connected for reconcile push flow
 
-*Start here if you're new to SIFIX or Web3 security.*
+## Start here
 
-Understand the problem we're solving, how SIFIX works at a high level, and the technology behind it.
-
-- **[Introduction](./overview/introduction)** — What is SIFIX, key capabilities, system overview
-- **[Problem Statement](./overview/problem-statement)** — Web3 threat landscape and why traditional wallets fail
-- **[Solution](./overview/solution)** — 5-step protection pipeline and risk scoring
-- **[Tech Stack](./overview/tech-stack)** — Technologies used and why
-
-### 🧩 Product
-
-*Explore the components that make up SIFIX — for product managers, designers, and curious minds.*
-
-Each component is independently useful. Together, they form a complete security system.
-
-- **[Browser Extension](./product/extension)** — Chrome MV3 extension, content scripts, domain safety
-- **[Dashboard](./product/dashboard)** — Web dashboard, 12 pages, design system
-- **[AI Agent SDK](./product/ai-agent)** — Core security engine, 6 modules, historical learning
-- **[Agentic Identity](./product/agentic-identity)** — ERC-7857 on-chain identity for AI agent verification
-- **[0G Integration](./product/0g-integration)** — Storage, Compute, and EVM on 0G Galileo
-
-### 🏗️ Architecture
-
-*For developers, security auditors, and technical evaluators.*
-
-Dive into how the system is designed — data flows, security models, and database schemas.
-
-- **[System Overview](./architecture/system-overview)** — Full system architecture diagram
-- **[Data Flow](./architecture/data-flow)** — 6-step analysis pipeline with interfaces
-- **[Security Model](./architecture/security-model)** — Security considerations and threat model
-- **[Database Schema](./architecture/database-schema)** — 13 Prisma models with ER diagram
-- **[Auth Flow](./architecture/auth-flow)** — SIWE authentication deep dive
-
-### 🚀 Guides
-
-*Get SIFIX running in 5 minutes — for developers and hackathon evaluators.*
-
-Step-by-step instructions to install, configure, and deploy every component.
-
-- **[Installation](./guides/installation)** — Install and set up all components
-- **[Configuration](./guides/configuration)** — Environment variables and provider config
-- **[Quick Start](./guides/quick-start)** — 5-minute quick start guide
-- **[Extension Setup](./guides/extension-setup)** — Build and load the Chrome extension
-- **[Deployment](./guides/deployment)** — Deploy to production (Vercel, GitHub Pages)
-
-### 🔌 API Reference
-
-*For developers integrating SIFIX — complete API documentation.*
-
-- **[Agent SDK](./api-reference/agent-sdk)** — @sifix/agent v1.5.0 TypeScript API
-- **[REST API](./api-reference/rest-api)** — 35 dApp API endpoints
-- **[Extension API](./api-reference/extension-api)** — Chrome message API
-- **[0G Storage API](./api-reference/0g-storage-api)** — On-chain evidence storage
-
-### 💡 Examples
-
-*Working code you can run right now — for developers who learn by doing.*
-
-- **[Basic Analysis](./examples/basic-analysis)** — ETH transfer, token approval, NFT analysis
-- **[AI Providers](./examples/ai-providers)** — 0G Compute, OpenAI, Groq, OpenRouter, Ollama
-- **[Storage](./examples/storage)** — 0G Storage upload, retrieve, verify, mock mode
-- **[Advanced](./examples/advanced)** — Batch analysis, custom providers, webhooks, extension integration
-
-### 🤝 Community
-
-*Join us — contributors, integrators, and the curious are all welcome.*
-
-- **[Contributing](./community/contributing)** — How to contribute, code style, PR process
-- **[Changelog](./community/changelog)** — Version history and roadmap
-- **[FAQ](./community/faq)** — Frequently asked questions
-
----
+- Product overview: [Introduction](./overview/introduction)
+- API integration: [REST API](./api-reference/rest-api)
+- SDK usage: [@sifix/agent SDK](./api-reference/agent-sdk)
+- Deployment: [Guides](./guides/installation)
+- System internals: [Architecture](./architecture/system-overview)
 
 ## Repositories
 
-**sifix-agent** — AI Security Agent SDK (TypeScript)
-🔗 [github.com/sifix-ai/sifix-agent](https://github.com/sifix-ai/sifix-agent)
-
-**sifix-dapp** — Web Dashboard + REST API (Next.js 16)
-🔗 [github.com/sifix-ai/sifix-dapp](https://github.com/sifix-ai/sifix-dapp)
-
-**sifix-extension** — Chrome Extension (Plasmo MV3)
-🔗 [github.com/sifix-ai/sifix-extension](https://github.com/sifix-ai/sifix-extension)
-
-**sifix-docs** — Documentation (DocMD)
-🔗 [github.com/sifix-ai/sifix-docs](https://github.com/sifix-ai/sifix-docs)
-
----
-
-## 🏆 Built for 0G Chain APAC Hackathon 2026
-
-SIFIX is built on [0G Chain](https://0g.ai) infrastructure — the decentralized AI network that makes trustless security analysis possible.
-
-- **0G Storage** — Decentralized immutable evidence storage
-- **0G Compute** — On-chain AI inference
-- **0G EVM** — Smart contracts and SIWE authentication
-- **ERC-7857** — Agentic Identity for AI agent verification
-
-## License
-
-MIT License — build freely, protect everyone.
+- `sifix-agent` — https://github.com/sifix-ai/sifix-agent
+- `sifix-dapp` — https://github.com/sifix-ai/sifix-dapp
+- `sifix-extension` — https://github.com/sifix-ai/sifix-extension
+- `sifix-indexer` — https://github.com/sifix-ai/sifix-indexer
+- `sifix-docs` — https://github.com/sifix-ai/sifix-docs
