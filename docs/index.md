@@ -22,74 +22,72 @@ description: AI-Powered Wallet Security for Web3
 
 ---
 
-## Why SIFIX exists
+## Problem we solve
 
-Web3 security still has one core problem: users sign transactions they do not fully understand. Attackers exploit that gap with phishing domains, malicious approvals, and deceptive contract calls.
+Most Web3 losses happen before users realize risk.
 
-SIFIX exists to move security **before signature**, not after loss.
+People click **Approve** on transactions they do not fully understand. Scam sites and malicious contracts are built to look normal. Wallets usually ask for signature, but do not explain danger in plain language.
 
-## What SIFIX is
+Result: one wrong click can drain funds.
 
-SIFIX is a security system made of four connected repos:
+## SIFIX solution
 
-- `sifix-extension` — browser interception and warning layer
-- `sifix-dapp` — dashboard, API, moderation, sync status
-- `sifix-agent` — AI simulation and risk analysis SDK
-- `sifix-indexer` — Ponder indexer for onchain event truth
+SIFIX acts like a security checkpoint before signature.
 
-Baseline network: **0G Galileo Testnet (Chain ID 16602)**.
+- It checks address/domain/transaction risk
+- It explains risk in simple language
+- It gives clear recommendation (safe, caution, block)
+- It keeps report + verification trail transparent
 
-## How SIFIX works
+So user decides with context, not guesswork.
+
+## How it works (simple flow)
 
 ```mermaid
 flowchart LR
-  U[User interaction] --> A[Scan / Analyze]
-  A --> R[Create threat report<br/>status=PENDING]
+  U[User action] --> A[Scan & AI analysis]
+  A --> R[Create report]
   R --> L[Relay to onchain]
-  L --> E[ScamVoteSubmitted event]
-  E --> I[Ponder indexer]
-  I --> C[Reconcile endpoint]
-  C --> D[Dashboard/API synced status]
+  L --> I[Indexer reads event]
+  I --> C[Reconcile status]
+  C --> D[Dashboard shows final state]
 ```
 
-### Sync lifecycle
+## Status flow (behind the scenes)
 
 ```mermaid
 stateDiagram-v2
   [*] --> PENDING_LOCAL
-  PENDING_LOCAL --> QUEUED: relay requested
-  QUEUED --> SYNCED: tx + event reconciled
-  QUEUED --> RELAY_FAILED: tx failed/timeout
-  RELAY_FAILED --> QUEUED: retry scheduler
-
-  state "Onchain" as O {
-    [*] --> NONE
-    NONE --> SUBMITTED
-  }
+  PENDING_LOCAL --> QUEUED
+  QUEUED --> SYNCED
+  QUEUED --> RELAY_FAILED
+  RELAY_FAILED --> QUEUED: retry
 ```
 
-## Why this matters (impact)
+## Why this matters
 
-- Reduces blind-sign incidents with pre-sign warnings
-- Gives transparent moderation flow (`PENDING`, vote, override)
-- Keeps sync observability clear (`QUEUED`, `SYNCED`, `RELAY_FAILED`)
-- Anchors evidence with onchain events, not UI assumptions only
+### For users
+- Better protection before signing
+- Less confusion on risky transactions
+- More confidence when using Web3 apps
 
-## Current progress (May 2026)
+### For community and ecosystem
+- Reports are verifiable, not random claims
+- Moderation and sync state are visible
+- Onchain events provide stronger accountability
+
+## Current progress
 
 - Chain-aware scan validation hardened
-- Live guard probes added to dashboard status
-- Relay endpoints added:
-  - `POST /api/v1/threats/[id]/relay`
-  - `POST /api/v1/threats/[id]/vote/relay`
-- Reconcile endpoint added:
-  - `POST /api/internal/reconcile/onchain`
-- `sifix-indexer` scaffolded with Ponder + reconcile push script
+- Live guard health status in dashboard
+- Relay endpoints active
+- Reconcile endpoint active
+- Ponder indexer integrated for sync pipeline
 
-## Start from here
+## Start here
 
-- Product intro: [Introduction](./overview/introduction)
-- API integration: [REST API](./api-reference/rest-api)
-- SDK usage: [@sifix/agent SDK](./api-reference/agent-sdk)
-- Setup: [Installation Guide](./guides/installation)
-- Deep internals: [System Overview](./architecture/system-overview)
+- New to SIFIX: [Introduction](./overview/introduction)
+- Integrating API: [REST API](./api-reference/rest-api)
+- Using SDK: [@sifix/agent SDK](./api-reference/agent-sdk)
+- Setup guide: [Installation](./guides/installation)
+- Architecture details: [System Overview](./architecture/system-overview)
