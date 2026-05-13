@@ -5,7 +5,7 @@ description: "Complete reference for the SIFIX dApp REST API — 35 endpoints ac
 
 # REST API
 
-The SIFIX dApp exposes **35 REST endpoints** organized across 11 domains. These endpoints power the dashboard, Chrome extension, and all programmatic interactions with the SIFIX security platform on **0G Galileo Testnet**.
+The SIFIX dApp exposes **36 REST endpoints** organized across core security domains. These endpoints power the dashboard, Chrome extension, analytics review loop, and all programmatic interactions with the SIFIX security platform on **0G Galileo Testnet**.
 
 ---
 

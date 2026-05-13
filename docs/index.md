@@ -76,7 +76,7 @@ Simple flow:
 2. Simulate what would happen (read-only).
 3. Analyze pattern with AI.
 4. Return risk score + plain-language reason.
-5. Sync outcome to dashboard pipeline.
+5. Resolve and review outcome in dashboard analytics pipeline.
 
 ---
 

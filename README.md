@@ -4,11 +4,11 @@ Official documentation for SIFIX - AI-Powered Wallet Security for Web3.
 
 ## Latest Progress (May 2026)
 
-- Added documentation for onchain relay and reconcile pipeline (`report -> relay -> indexer -> reconcile`).
+- Added documentation for **prediction accuracy tracking** and live analytics review flow.
+- Added docs for **recent predictions API** and false-positive / false-negative review loop.
+- Updated dashboard documentation to reflect **action protection matrix** and live prediction drill-down.
 - Standardized network references to **0G Galileo Testnet (Chain ID: 16602)**.
-- Added internal sync/reconcile endpoint reference for indexer integration.
-- Added notes for dual-status threat lifecycle (`localStatus`, `onchainStatus`).
-- Added dedicated **sifix-indexer (Ponder)** documentation links and run flow.
+- Added dedicated **sifix-indexer (Ponder)** documentation links and richer reconcile payload context.
 
 ## Development
 

@@ -86,7 +86,7 @@ Below is a brief, plain-English description of each of the 12 dashboard pages:
 - **Reports** — Your library of past security reports. Search, filter, export to PDF, or verify on-chain evidence.
 - **Tags** — Color-coded labels you can slap on any address or contract (e.g. *suspicious*, *verified*, *personal*) for easy filtering later.
 - **Watchlist** — Proactive monitoring. Add addresses or domains and get alerts when risk scores change or new threats are detected.
-- **Analytics** — Charts and trends: how your security score has changed over time, what types of threats you see most, when attacks peak.
+- **Analytics** — Live prediction review: recent AI decisions, false positives / false negatives, provider accuracy, action protection matrix, and outcome drill-down for demo and tuning.
 - **Leaderboard** — Community rankings. See who's contributing the most scans, reports, and verifications.
 - **History** — A full audit trail of everything you've done in SIFIX — scans, tags, logins, extension connections — searchable and exportable.
 - **Settings** — Your profile, notification preferences, API keys, extension management, and network configuration.
