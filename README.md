@@ -8,7 +8,9 @@ Official documentation for SIFIX - AI-Powered Wallet Security for Web3.
 - Added docs for **recent predictions API** and false-positive / false-negative review loop.
 - Updated dashboard documentation to reflect **action protection matrix** and live prediction drill-down.
 - Standardized network references to **0G Galileo Testnet (Chain ID: 16602)**.
-- Added dedicated **sifix-indexer (Ponder)** documentation links and richer reconcile payload context.
+- Added dedicated **sifix-indexer (Ponder)** documentation links and migrated reconcile flow to `POST /api/v1/sync/reconcile-batch` with `events + lastBlock + chainId` payload.
+- Added deployment note for new SifixReputation contract `0xBBa8b030D80113e50271a2bbEeDBE109D9f1C42e`.
+- Added sync state cursor key note: `sifix_reputation_indexer`.
 
 ## Development
 
@@ -31,11 +33,13 @@ npm run preview
 ```
 docs/
 ├── index.md              # Homepage
-├── getting-started.md    # Installation & setup
-├── architecture.md       # Technical architecture
-├── api.md               # API reference
-├── examples.md          # Code examples
-└── contributing.md      # Contribution guide
+├── overview/             # Product introduction/problem/solution/stack
+├── guides/               # Install, quick-start, config, deployment
+├── architecture/         # System overview, data flow, auth, security
+├── api-reference/        # REST, extension, agent SDK, 0G storage
+├── product/              # Dashboard, extension, AI agent, identity
+├── examples/             # Integration examples
+└── community/            # Changelog, FAQ, contributing
 ```
 
 ## Deployment

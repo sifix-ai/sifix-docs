@@ -12,17 +12,17 @@ All notable changes to SIFIX are documented here. Versions follow [Semantic Vers
 ## v1.6.0 — Current Release
 
 **Release Date:** 2026 Q2  
-**Focus:** onchain relay pipeline, indexer reconciliation, and resilient sync lifecycle
+**Focus:** onchain-first publish pipeline, SifixReputation event indexing, and resilient sync lifecycle
 
 ### Features
 
-- **Onchain Relay Pipeline** — Added relay endpoints for threat reports and community votes:
-  - `POST /api/v1/threats/[id]/relay`
-  - `POST /api/v1/threats/[id]/vote/relay`
-- **Indexer Reconcile Bridge** — Added internal endpoint for indexed event ingestion:
-  - `POST /api/internal/reconcile/onchain`
-- **Dual-Status Threat Lifecycle** — Threat reports now track local and onchain state separately (`localStatus`, `onchainStatus`) for better observability and retries.
-- **Ponder Indexer Repository** — New `sifix-indexer` service indexes `ScamVoteSubmitted` events on 0G Galileo and pushes normalized batches for reconciliation.
+- **Onchain-First Publish Pipeline** — Threat publication now centers on direct user wallet transactions against `SifixReputation` on 0G Galileo.
+- **Indexer Reconcile Bridge** — Added public sync ingestion endpoint for indexed event batches:
+  - `POST /api/v1/sync/reconcile-batch`
+  - `GET /api/v1/sync/state`
+- **Dual-Status Threat Lifecycle** — Threat reports track local workflow and onchain sync state separately for better observability and retries.
+- **Ponder Indexer Repository** — `sifix-indexer` now indexes `SecurityReportSubmitted` events from contract `0xBBa8b030D80113e50271a2bbEeDBE109D9f1C42e` and pushes normalized `events + lastBlock + chainId` batches.
+- **Sync Cursor Standardization** — Reconcile cursor key aligned to `sifix_reputation_indexer`.
 
 ### Improvements
 

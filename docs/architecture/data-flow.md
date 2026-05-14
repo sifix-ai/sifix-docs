@@ -15,10 +15,11 @@ Every transaction the SIFIX extension intercepts follows a **six-step pipeline**
 SIFIX uses **user-published transactions** for threat/vote records:
 
 1. dApp prepares publish payload.
-2. User wallet signs and sends transaction (user pays 0G gas).
-3. Contract emits event on 0G Galileo.
-4. Indexer captures event.
-5. Reconcile endpoint updates local status to `SYNCED_ONCHAIN`.
+2. User wallet signs and sends transaction against `SifixReputation` (user pays 0G gas).
+3. Contract emits `SecurityReportSubmitted` on 0G Galileo.
+4. `sifix-indexer` captures event into `security_report_events`.
+5. Indexer pushes normalized `events + lastBlock + chainId` batch to `POST /api/v1/sync/reconcile-batch`.
+6. dApp advances sync cursor key `sifix_reputation_indexer` and updates local status to `SYNCED_ONCHAIN`.
 
 Status lifecycle:
 - `DRAFT_LOCAL` -> `PUBLISHING` -> `SYNCED_ONCHAIN`
