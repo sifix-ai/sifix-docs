@@ -59,8 +59,8 @@ git push -u origin main
 In the Vercel project settings → **Environment Variables**, add all 14 variables:
 
 ```bash
-# Database — use Turso for serverless SQLite or PlanetScale for MySQL
-DATABASE_URL="file:./prod.db"          # or Turso connection string
+# Database — use managed PostgreSQL
+DATABASE_URL="postgresql://user:password@db-host:5432/sifix?schema=public"
 
 # WalletConnect
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID="your-project-id"

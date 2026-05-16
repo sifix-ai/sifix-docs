@@ -151,8 +151,8 @@ A **Plasmo 0.88** Chrome Manifest V3 extension that serves as the user-facing en
 A **Next.js 16** application serving as both the web dashboard and the REST API backend.
 
 - **Role:** Hosts 12 dashboard pages for threat monitoring, scanning, analytics, and settings; provides 35 authenticated API routes consumed by the extension and dashboard
-- **Tech:** React 19, Wagmi v3, TanStack React Query, Prisma 5 (SQLite), Zod validation, TailwindCSS 4
-- **Database:** Prisma ORM with SQLite, 13 models covering core security data, community features, and system state
+- **Tech:** React 19, Wagmi v3, TanStack React Query, Prisma 5 (PostgreSQL), Zod validation, TailwindCSS 4
+- **Database:** Prisma ORM with PostgreSQL, 13 models covering core security data, community features, and system state
 - **Threat Intel:** Implements `ThreatIntelProvider` interface from the agent SDK, bridging the database to the analysis pipeline
 - **Auth:** SIWE (Sign-In with Ethereum) authentication issuing JWT tokens for extension and dashboard sessions
 

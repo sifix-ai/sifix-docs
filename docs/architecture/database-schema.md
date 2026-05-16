@@ -1,6 +1,6 @@
 ---
 title: Database Schema
-description: Complete reference for all 13 Prisma models in the SIFIX SQLite database — field definitions, types, relations, indexes, and a full ER diagram showing how core, community, and system models connect.
+description: Complete reference for all 13 Prisma models in the SIFIX PostgreSQL database — field definitions, types, relations, indexes, and a full ER diagram showing how core, community, and system models connect.
 ---
 
 # Database Schema
@@ -14,11 +14,11 @@ If you've ever used a spreadsheet, you already understand the basics of a databa
 
 For example, SIFIX has a table for **tracked addresses** (like a list of people the system has seen before) and a table for **threat reports** (complaints filed by the community about suspicious addresses). Each threat report is linked to an address — just like how a spreadsheet row might reference a customer ID from another sheet.
 
-SIFIX uses a lightweight database called **SQLite** (think of it as a single-file database — no complex server setup needed) and a tool called **Prisma** to interact with it in a type-safe way.
+SIFIX uses **PostgreSQL** as its primary database and **Prisma** to interact with it in a type-safe way. This gives the app relational integrity, better concurrency, and a production-ready deployment model for shared state across the SIFIX stack.
 
 ---
 
-SIFIX uses **Prisma 5** with **SQLite** for its database layer. The schema consists of **13 models** organized into three domains: Core (security data), Community (user-generated content), and System (configuration and sessions).
+SIFIX uses **Prisma 5** with **PostgreSQL** for its database layer. The schema consists of **13 models** organized into three domains: Core (security data), Community (user-generated content), and System (configuration and sessions).
 
 ---
 

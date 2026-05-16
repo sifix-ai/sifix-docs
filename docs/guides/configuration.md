@@ -197,8 +197,8 @@ Copy this template to `.env` and fill in your values:
 # SIFIX dApp — Environment Configuration
 # ===========================================
 
-# Database (Prisma + SQLite)
-DATABASE_URL="file:./dev.db"
+# Database (Prisma + PostgreSQL)
+DATABASE_URL="postgresql://user:password@127.0.0.1:5432/sifix"
 
 # WalletConnect (required for wallet connection)
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID="your-walletconnect-id"
