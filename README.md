@@ -1,6 +1,6 @@
 # SIFIX Documentation
 
-Official documentation for SIFIX - AI-Powered Wallet Security for Web3.
+Official documentation for SIFIX - intercept-first Web3 security built on 0G Chain, 0G Compute, 0G Storage, and 0G Agentic ID.
 
 ## Latest Progress (May 2026)
 
