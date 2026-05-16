@@ -56,7 +56,7 @@ SIFIX introduces a **5-step protection pipeline** — Intercept → Simulate →
 - **🤖 Multi-Model AI Analysis** — Route analysis through 0G Compute (primary) with intelligent fallback to OpenAI, Groq, OpenRouter, and Ollama. Get the best model for every threat type.
 - **🛡️ Real-Time Risk Scoring** — Every transaction receives a 0–100 risk score across 5 tiers (SAFE → CRITICAL) with detailed breakdowns of every risk factor found.
 - **🌐 Chrome Extension Guard** — A Plasmo-powered MV3 extension injects protection directly into MetaMask and wallet interfaces, intercepting signatures in real-time.
-- **📊 Comprehensive Dashboard** — A Next.js 16 dApp with 35 API routes and 12 pages provides full transaction history, risk reports, and portfolio-level security insights.
+- **📊 Comprehensive Dashboard** — A Next.js 16 dApp with setup, scan history, reputation, analytics, and extension activation flows gives users full visibility into security decisions.
 - **🔐 Zero-Knowledge Approach** — SIFIX never holds keys, never executes transactions, and never stores sensitive data. It simulates, analyzes, and reports — nothing more.
 
 ---
@@ -82,7 +82,7 @@ graph TB
         OGStorage["0G Storage<br/>Data Availability"]
         OGCompute["0G Compute<br/>AI Inference"]
         OGEVM["0G EVM<br/>Galileo Testnet<br/>Chain 16602"]
-        ERC["ERC-7857<br/>Asset Tokenization"]
+        AGID["0G Agentic ID<br/>Identity Layer"]
     end
 
     DApp --> SDK
@@ -97,7 +97,7 @@ graph TB
     Sim -->|Forked Simulation| OGEVM
     AI -->|Primary Inference| OGCompute
     SDK -->|Store Reports| OGStorage
-    OGEVM --> ERC
+    OGEVM --> AGID
 ```
 
 ---
@@ -106,9 +106,9 @@ graph TB
 
 | Repository | Description |
 |---|---|
-| **sifix-agent** | Core SDK (v1.5.0) — simulation engine, AI routing, risk scoring |
-| **sifix-dapp** | Next.js 16 dashboard — 12 pages, 35 API routes |
-| **sifix-extension** | Chrome extension (MV3) — real-time wallet protection |
+| **sifix-agent** | Core SDK — simulation engine, AI routing, risk scoring |
+| **sifix-dapp** | Next.js 16 dashboard — auth, analyze, history, reputation, sync |
+| **sifix-extension** | Chrome extension (MV3) — real-time wallet interception and domain safety |
 
 ---
 
